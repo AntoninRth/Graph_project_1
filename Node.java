@@ -22,7 +22,7 @@ public class Node implements Comparable<Node>{
         return false;
     }
 
-    public double hashCode(){
-        return this.idNode+this.idNode;
+    public int hashCode(){
+        return this.idNode;
     }
 }
