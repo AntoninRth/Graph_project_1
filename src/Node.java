@@ -27,4 +27,9 @@ public class Node implements Comparable<Node>{
     public int hashCode(){
         return this.idNode;
     }
+
+    @Override
+    public int compareTo(Node o) {
+        return 0;
+    }
 }

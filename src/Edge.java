@@ -1,14 +1,15 @@
-package src;
+import src.Node;
+import src.Edge;
 
-public class Edges implements Comparable<Edges>{
+public class Edge implements Comparable<Edge>{
     Node fromNode, toNode;
 
-    public Edges(Node from, Node to){
+    public Edge(Node from, Node to){
         this.fromNode = from;
         this.toNode = to;
     }
 
-    public Edges(int idFrom, int idTo){
+    public Edge(int idFrom, int idTo){
         Node from = new Node(idFrom);
         Node to = new Node(idTo);
         this.fromNode = from;
@@ -23,7 +24,7 @@ public class Edges implements Comparable<Edges>{
         return this.toNode;
     }
 
-    public boolean equals(Edges e){
+    public boolean equals(src.Edge e){
         if((this.fromNode.equals(e.from()))||(this.toNode.equals(e.to()))){
             return true;
         }

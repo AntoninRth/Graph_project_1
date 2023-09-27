@@ -1,7 +1,7 @@
-import com.sun.net.httpserver.Authenticator;
-
 import java.util.*;
 
+import com.sun.net.httpserver.Authenticator;
+import src.Node;
 
 public class Graf {
     private Map<Node,List<Edge>> adjEdList;
@@ -9,10 +9,17 @@ public class Graf {
     public Graf(){
         adjEdList = new TreeMap<>();
     }
-    public Graf(int [] SucessorArray){
+    public Graf(int ... SucessorArray){
+        int j = 0;
+        Node currentNode = new Node(j);
+        List<Edge> edgeList =  new ArrayList<>();
         for(int i = 0; i< SucessorArray.length; i++){
-            while(SucessorArray[i] != 0){
-
+            Edge edge = new Edge(j, SucessorArray[i]);
+            edgeList.add(edge);
+            if(SucessorArray[i] == 0){
+                adjEdList.put(currentNode,edgeList);
+                edgeList.clear();
+                j++;
             }
         }
     }

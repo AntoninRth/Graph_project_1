@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import m1graf2023.*;
+//import m1graf2023.*;
 import src.Node;
 
 public class TestGrafPW2 {
