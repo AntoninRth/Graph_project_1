@@ -8,6 +8,8 @@ import src.Node;
 public class TestGrafPW2 {
 
     public static void main(String[] args) {
+        System.out.print("1");
+
         System.out.println("************ PART 1. UNWEIGTED DIRECTED GRAPHS ***********************");
         System.out.println("\n>>>>>>>> SIMPLE GRAPH >>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.println(">>>>>>>> Creating the subject example graph in G");
@@ -383,5 +385,4 @@ public class TestGrafPW2 {
 
 
     }
-
 }
