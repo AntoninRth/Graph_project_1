@@ -18,13 +18,15 @@ public class Node implements Comparable<Node>{
     }
 
     public boolean equals(Node n){
-        if(this.idNode == n.getId()){
-            return true;
-        }
-        return false;
+        return this.idNode == n.getId();
     }
 
     public int hashCode(){
         return this.idNode;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return 0;
     }
 }
