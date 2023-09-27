@@ -1,4 +1,4 @@
-package src;
+package m1graf2023;
 
 public class Node implements Comparable<Node>{
     int idNode;

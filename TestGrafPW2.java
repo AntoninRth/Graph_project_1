@@ -3,8 +3,6 @@ import java.util.Collections;
 import java.util.List;
 
 import m1graf2023.*;
-import src.Node;
-
 public class TestGrafPW2 {
 
     public static void main(String[] args) {
@@ -19,7 +17,7 @@ public class TestGrafPW2 {
         List<Node> nodes = g.getAllNodes();
         Collections.sort(nodes);
         for (Node n: nodes)
-            System.out.println("src.Node "+n+": degree "+g.degree(n)+" (in: "+g.inDegree(n)+"/ out: "+g.outDegree(n)+")");
+            System.out.println("m1graf2023.Node "+n+": degree "+g.degree(n)+" (in: "+g.inDegree(n)+"/ out: "+g.outDegree(n)+")");
 
         List<Edge> edges;
         System.out.println(">> src.Edges: ");
@@ -165,9 +163,9 @@ public class TestGrafPW2 {
 
         System.out.println(">>>> Searching for node 7");
         if (g.existsNode(7))
-            System.out.println("src.Node 7 exists");
+            System.out.println("m1graf2023.Node 7 exists");
         else
-            System.out.println("There is no src.Node 7");
+            System.out.println("There is no m1graf2023.Node 7");
 
         System.out.println(">>>> Searching for edge (4, 2)");
         if (g.existsEdge(4, 2))
@@ -270,7 +268,7 @@ public class TestGrafPW2 {
 
         System.out.println("\n>>>>>> usg: Counting degrees and showing successors");
         for (Node u: usg.getAllNodes()) {
-            System.out.println("src.Node "+u+". Degree: "+usg.degree(u.getId())+" (In: "+usg.inDegree(u.getId())+" / Out: "+usg.outDegree(u.getId())+")");
+            System.out.println("m1graf2023.Node "+u+". Degree: "+usg.degree(u.getId())+" (In: "+usg.inDegree(u.getId())+" / Out: "+usg.outDegree(u.getId())+")");
             System.out.println("\tSuccessors: "+usg.getSuccessors(u));
         }
 
@@ -299,7 +297,7 @@ public class TestGrafPW2 {
 
         System.out.println("\n>>>>>> umg: Counting degrees and showing successors");
         for (Node u: umg.getAllNodes()) {
-            System.out.println("src.Node "+u+". Degree: "+umg.degree(u.getId())+" (In: "+umg.inDegree(u.getId())+" / Out: "+umg.outDegree(u.getId())+")");
+            System.out.println("m1graf2023.Node "+u+". Degree: "+umg.degree(u.getId())+" (In: "+umg.inDegree(u.getId())+" / Out: "+umg.outDegree(u.getId())+")");
             System.out.println("\tSuccessors: "+umg.getSuccessors(u));
         }
 
