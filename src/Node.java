@@ -27,6 +27,13 @@ public class Node implements Comparable<Node>{
 
     @Override
     public int compareTo(Node o) {
+        if(o.getId() < this.getId()){
+            return 1;
+        }else{
+            if(o.getId() > this.getId()){
+                return -1;
+            }
+        }
         return 0;
     }
 }

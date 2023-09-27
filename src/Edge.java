@@ -54,6 +54,29 @@ public class Edge implements Comparable<Edge>{
 
     @Override
     public int compareTo(Edge o) {
+        if(o.from().getId() < this.from().getId()){
+            return 1;
+        }else{
+            if(o.from().getId() > this.from().getId()){
+                return -1;
+            }else{
+                if(o.to().getId() < this.to().getId()){
+                    return 1;
+                }else{
+                    if(o.to().getId() > this.to().getId()){
+                        return -1;
+                    }else{
+                        if(o.getWeight() < this.getWeight()){
+                            return 1;
+                        }else{
+                            if(o.getWeight() > this.getWeight()){
+                                return -1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         return 0;
     }
 }
