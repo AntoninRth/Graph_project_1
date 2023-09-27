@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3dd11179-038e-4bca-b45f-47171a5cca8d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Edges.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Edges.java" beforeDir="false" afterPath="$PROJECT_DIR$/Edges.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,24 +37,10 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/home/antonin/Documents/M1/GL/robot/pom.xml"
   }
 }]]></component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="m1graf2023" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="m1graf2023" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -79,7 +64,14 @@
       <option name="project" value="LOCAL" />
       <updated>1695211657850</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add edges class">
+      <created>1695213617512</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1695213617512</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -96,6 +88,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="rename package" />
     <MESSAGE value="add node class" />
-    <option name="LAST_COMMIT_MESSAGE" value="add node class" />
+    <MESSAGE value="add edges class" />
+    <option name="LAST_COMMIT_MESSAGE" value="add edges class" />
   </component>
 </project>

@@ -1,3 +1,5 @@
+package src;
+
 public class Edges implements Comparable<Edges>{
     Node fromNode, toNode;
 
@@ -13,16 +15,16 @@ public class Edges implements Comparable<Edges>{
         this.toNode = to;
     }
 
-    public Node getFromNode(){
+    public Node from(){
         return this.fromNode;
     }
 
-    public Node getToNode(){
+    public Node to(){
         return this.toNode;
     }
 
     public boolean equals(Edges e){
-        if((this.fromNode.equals(e.getFromNode()))||(this.toNode.equals(e.getToNode()))){
+        if((this.fromNode.equals(e.from()))||(this.toNode.equals(e.to()))){
             return true;
         }
         return false;
@@ -34,5 +36,12 @@ public class Edges implements Comparable<Edges>{
 
     public String hashCode(){
         this.toString().hashCode();
+    }
+
+    public boolean isSelfLoop(){
+        if(this.fromNode.equals(this.toNode)){
+            return true;
+        }
+        return false;
     }
 }
