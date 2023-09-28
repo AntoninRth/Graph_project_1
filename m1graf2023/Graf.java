@@ -1,7 +1,6 @@
-import java.util.*;
+package m1graf2023;
 
-import com.sun.net.httpserver.Authenticator;
-import src.Node;
+import java.util.*;
 
 public class Graf {
     private Map<Node,List<Edge>> adjEdList;
@@ -9,19 +8,23 @@ public class Graf {
     public Graf(){
         adjEdList = new TreeMap<>();
     }
-    public Graf(int ... SucessorArray){
+    public Graf(int ... SuccessorArray){
         int j = 0;
         Node currentNode = new Node(j);
         List<Edge> edgeList =  new ArrayList<>();
-        for(int i = 0; i< SucessorArray.length; i++){
-            Edge edge = new Edge(j, SucessorArray[i]);
+        for(int i = 0; i< SuccessorArray.length; i++){
+            Edge edge = new Edge(j, SuccessorArray[i]);
             edgeList.add(edge);
-            if(SucessorArray[i] == 0){
+            if(SuccessorArray[i] == 0){
                 adjEdList.put(currentNode,edgeList);
                 edgeList.clear();
                 j++;
             }
         }
+    }
+
+    public int nbNodes(){
+        return adjEdList.size();
     }
 
 
