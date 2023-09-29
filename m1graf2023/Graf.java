@@ -27,6 +27,51 @@ public class Graf {
         return adjEdList.size();
     }
 
+    public boolean existsNode(Node n){
+        return adjEdList.containsKey(n);
+    }
+
+    public boolean existsNode(int nodeID){
+        Node n = new Node(nodeID);
+        return adjEdList.containsKey(n);
+    }
+
+    public Node getNode(int id){
+        for(Node n : adjEdList.keySet()){
+            if(n.getId() == id){
+                return n;
+            }
+        }
+        return null;
+    }
+
+    public boolean addNode(Node n){
+        return this.adjEdList.put(n, new ArrayList<>()) != null;
+    }
+
+    public boolean addNode(int idNode){
+        Node n = new Node(idNode);
+        return this.adjEdList.put(n, new ArrayList<>()) != null;
+    }
+
+    //Demander pour le type de retour de la fonction
+    public boolean removeNode(Node n){
+        return this.adjEdList.remove(n) != null;
+    }
+
+    public boolean removeNode(int nodeID){
+        Node n = new Node(nodeID);
+        return this.adjEdList.remove(n) != null;
+    }
+
+    public List<Node> getSuccessors(Node n){
+        return null;
+    }
+
+    public List<Node> getSuccessors(int nodeID){
+        return null;
+    }
+
 
     int[] toSuccessorArray(){
         return null;
