@@ -13,7 +13,7 @@ public class Node implements Comparable<Node>{
         this.nameNode = name;
     }
 
-    int getId(){
+    public int getId(){
         return this.idNode;
     }
 
