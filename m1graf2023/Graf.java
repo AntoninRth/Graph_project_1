@@ -200,6 +200,7 @@ public class Graf {
         return false;
     }
 
+    //Demander pour le poids des edges (inclure dans toutes les fonctions ?)
     public void addEdge(Node from, Node to){
         if(!this.existsNode(from.getId())){
             this.addNode(from);
@@ -213,6 +214,147 @@ public class Graf {
         adjEdList.get(from).add(e);
     }
 
+    public void addEdge(Edge e){
+        if(!this.existsNode(e.from().getId())){
+            this.addNode(e.from());
+        }
+
+        if(!this.existsNode(e.to().getId())){
+            this.addNode(e.to());
+        }
+
+        adjEdList.get(e.from()).add(e);
+    }
+
+    public void addEdge(int fromID, int toID){
+        Node from = new Node(fromID);
+        Node to = new Node(toID);
+
+        if(!this.existsNode(from.getId())){
+            this.addNode(from);
+        }
+
+        if(!this.existsNode(to.getId())){
+            this.addNode(to);
+        }
+
+        Edge e = new Edge(from,to);
+        adjEdList.get(from).add(e);
+    }
+
+    public boolean removeEdge(Node from, Node to){
+        return adjEdList.get(from).remove(new Edge(from, to));
+    }
+
+    public boolean removeEdge(int fromID, int toID){
+        Node from = new Node(fromID);
+        Node to = new Node(toID);
+        return adjEdList.get(from).remove(new Edge(from, to));
+    }
+
+    public boolean removeEdge(Edge e){
+        return adjEdList.get(e.from()).remove(e);
+    }
+
+    public List<Edge> getOutEdges(Node n){
+
+        return new ArrayList<>(adjEdList.get(n));
+    }
+
+    public List<Edge> getOutEdges(int nodeID){
+        Node n = new Node(nodeID);
+
+        return new ArrayList<>(adjEdList.get(n));
+    }
+
+    public List<Edge> getInEdges(Node n){
+        List<Edge> resList = new ArrayList<>();
+
+        for(List<Edge> currList: adjEdList.values()){
+            for(Edge e: currList){
+                if(e.to() == n){
+                    if(!resList.contains(e)){
+                        resList.add(e);
+                    }
+                }
+            }
+        }
+        return resList;
+    }
+
+    public List<Edge> getInEdges(int nodeID){
+        List<Edge> resList = new ArrayList<>();
+
+        Node n = new Node(nodeID);
+
+        for(List<Edge> currList: adjEdList.values()){
+            for(Edge e: currList){
+                if(e.to() == n){
+                    if(!resList.contains(e)){
+                        resList.add(e);
+                    }
+                }
+            }
+        }
+        return resList;
+    }
+
+    public List<Edge> getIncidentEdges(Node n){
+        List<Edge> resList = new ArrayList<>();
+        resList = getInEdges(n);
+
+        List <Edge> tempList = getOutEdges(n);
+        resList.addAll(tempList);
+
+        return resList;
+    }
+
+    public List<Edge> getIncidentEdges(int nodeID){
+        Node n = new Node(nodeID);
+        List<Edge> resList = new ArrayList<>();
+        resList = getInEdges(n);
+
+        List <Edge> tempList = getOutEdges(n);
+        resList.addAll(tempList);
+
+        return resList;
+    }
+
+    public List<Edge> getEdges(Node u, Node v){
+        List<Edge> resList = new ArrayList<>();
+
+        for(Edge e: adjEdList.get(u)){
+            if(e.to().equals(v)){
+                resList.add(e);
+            }
+        }
+
+        return resList;
+    }
+
+    public List<Edge> getEdges(int fromID, int toID){
+        Node u = new Node(fromID);
+        Node v = new Node(toID);
+        List<Edge> resList = new ArrayList<>();
+
+        for(Edge e: adjEdList.get(u)){
+            if(e.to().equals(v)){
+                resList.add(e);
+            }
+        }
+
+        return resList;
+    }
+
+    public List<Edge> getAllEdges(){
+        List<Edge> resList = new ArrayList<>();
+
+        for(List<Edge> currList: adjEdList.values()){
+            resList.addAll(currList);
+        }
+
+        return resList;
+    }
 
     int[] toSuccessorArray(){
         return null;
