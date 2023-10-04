@@ -29,7 +29,7 @@ public class Edge implements Comparable<Edge>{
     }
 
     public String toString(){
-        return "("+this.fromNode+","+this.toNode+")";
+        return this.fromNode.idNode+" -> "+this.toNode.idNode;
     }
 
     public int hashCode(){
