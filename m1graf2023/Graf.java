@@ -356,42 +356,91 @@ public class Graf {
         return resList;
     }
 
-    int[] toSuccessorArray(){
+    public int inDegree(Node n){
+        List<Edge> nEdge = adjEdList.get(n);
+        return nEdge.size();
+    }
+
+    public int inDegree(int nodeID){
+        Node n = new Node(nodeID);
+        List<Edge> nEdge = adjEdList.get(n);
+        return nEdge.size();
+    }
+
+    public int outDegree(Node n){
+        int res = 0;
+        for(List<Edge> edgeList: adjEdList.values()){
+            for(Edge e: edgeList){
+                if(e.to().equals(n)){
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+
+    public int outDegree(int nodeID){
+        Node n = new Node(nodeID);
+        int res = 0;
+        for(List<Edge> edgeList: adjEdList.values()){
+            for(Edge e: edgeList){
+                if(e.to().equals(n)){
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+
+    public int degree(Node n){
+        int res = this.inDegree(n);
+        res += this.outDegree(n);
+        return res;
+    }
+
+    public int degree(int nodeID){
+        Node n = new Node(nodeID);
+        int res = this.inDegree(n);
+        res += this.outDegree(n);
+        return res;
+    }
+
+    public int[] toSuccessorArray(){
         return null;
     }
 
-    int[][] toAdjMatrix(){
+    public int[][] toAdjMatrix(){
         return null;
     }
 
-    Graf getReverse(){
+    public Graf getReverse(){
         return null;
     }
 
-    Graf getTransitiveClosure(){
+    public Graf getTransitiveClosure(){
         return null;
     }
 
-    List<Node> getDFS(){
+    public List<Node> getDFS(){
         return null;
     }
-    List<Node> getDFS(Node u){
-        return null;
-    }
-
-    List<Node> getBFS(){
+    public List<Node> getDFS(Node u){
         return null;
     }
 
-    List<Node> getBFS(Node u){
+    public List<Node> getBFS(){
         return null;
     }
 
-    List<Node> getDFSWithVisitInfo(Map<Node, NodeVisitInfo> nodeVisit,
+    public List<Node> getBFS(Node u){
+        return null;
+    }
+
+    public List<Node> getDFSWithVisitInfo(Map<Node, NodeVisitInfo> nodeVisit,
                                    Map<Edge, EdgeVisitType> edgeVisit){
         return null;
     }
-    List<Node> getDFSWithVisitInfo(Node u, Map<Node, NodeVisitInfo> nodeVisit,
+    public List<Node> getDFSWithVisitInfo(Node u, Map<Node, NodeVisitInfo> nodeVisit,
                                    Map<Edge, EdgeVisitType> edgeVisit){
         return null;
     }
@@ -408,9 +457,9 @@ public class Graf {
         return "";
     }
 
-    void toDotFile(String fileName){}
+    public void toDotFile(String fileName){}
 
-    void toDotFile(String fileName, String extension){}
+    public void toDotFile(String fileName, String extension){}
 
 
 }
