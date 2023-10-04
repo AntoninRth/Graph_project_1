@@ -20,7 +20,6 @@ public class Graf {
                 adjEdList.put(new Node(j), new ArrayList<>(edgeList));
                 edgeList.clear();
                 j++;
-                currentNode = new Node(j);
             }
         }
     }
@@ -141,7 +140,7 @@ public class Graf {
 
     //Demander pour le min et max des ID
     public int largestNodeId(){
-        int largestID = 0;
+        int largestID = -1000000;
 
         for(Node n : adjEdList.keySet()){
             if(largestID < n.getId()){
@@ -204,7 +203,6 @@ public class Graf {
         return false;
     }
 
-    //Demander pour le poids des edges (inclure dans toutes les fonctions ?)
     public void addEdge(Node from, Node to){
         if(!this.existsNode(from.getId())){
             this.addNode(from);
