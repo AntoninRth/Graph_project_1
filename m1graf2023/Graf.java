@@ -20,6 +20,7 @@ public class Graf {
                 adjEdList.put(new Node(j), new ArrayList<>(edgeList));
                 edgeList.clear();
                 j++;
+                currentNode = new Node(j);
             }
         }
     }
@@ -457,7 +458,21 @@ public class Graf {
     }
 
     public String toDotString(){
-        return "";
+        String str = "digraph figureOne {";
+        /*Map<Node, List<Edge>> gf = new TreeMap<>();
+        List<Edge> list = new ArrayList<>();
+        list.add(new Edge(1,2));
+        list.add(new Edge(1,3));
+
+        gf.put(new Node(1),list );*/
+
+        for (Map.Entry<Node, List<Edge>> entry : adjEdList.entrySet()) {
+            Node node = entry.getKey();
+            List<Edge> edges = entry.getValue();
+            System.out.println("node : " + node.idNode +" edges"+edges);
+        }
+        str += "}";
+        return str;
     }
 
     public void toDotFile(String fileName){}
