@@ -446,11 +446,11 @@ public class Graf {
         return null;
     }
 
-    static Graf fromDotFile(String filename){
+    public static Graf fromDotFile(String filename){
         return null;
     }
 
-    static Graf fromDotFile(String filename, String extension){
+    public static Graf fromDotFile(String filename, String extension){
         return null;
     }
 

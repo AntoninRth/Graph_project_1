@@ -259,7 +259,7 @@ public class TestGrafPW2 {
 
 
 
-        System.out.println("\n\n************ PART 4. UNDIRECTED UNWEIGHTED GRAPHS ***********************");
+        /**System.out.println("\n\n************ PART 4. UNDIRECTED UNWEIGHTED GRAPHS ***********************");
 
         System.out.println("Creating an undirected simple graph usg from scracth");
         UndirectedGraf usg = new UndirectedGraf(2,3,0, 3,4,0, 4,0, 0);
@@ -377,7 +377,7 @@ public class TestGrafPW2 {
             Collections.sort(succsMulti);
             System.out.println(""+u+" single successors: "+succs);
             System.out.println(""+u+" multi  successors: "+succsMulti);
-        }
+        }**/
 
 
     }
