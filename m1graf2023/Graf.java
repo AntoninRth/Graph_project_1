@@ -10,6 +10,7 @@ public class Graf {
     }
     public Graf(int ... SuccessorArray){
         int j = 0;
+        adjEdList = new TreeMap<>();
         Node currentNode = new Node(j);
         List<Edge> edgeList =  new ArrayList<>();
         for (int k : SuccessorArray) {
