@@ -3,21 +3,21 @@ package m1graf2023;
 import java.util.*;
 
 public class Graf {
-    private Map<Node,List<Edge>> adjEdList;
+    private final Map<Node,List<Edge>> adjEdList;
 
     public Graf(){
         adjEdList = new TreeMap<>();
     }
     public Graf(int ... SuccessorArray){
-        int j = 0;
+        int j = 1;
         adjEdList = new TreeMap<>();
-        Node currentNode = new Node(j);
         List<Edge> edgeList =  new ArrayList<>();
         for (int k : SuccessorArray) {
-            Edge edge = new Edge(j, k);
-            edgeList.add(edge);
-            if (k == 0) {
-                adjEdList.put(currentNode, edgeList);
+            if(k != 0){
+                Edge edge = new Edge(j, k);
+                edgeList.add(edge);
+            }else{
+                adjEdList.put(new Node(j), new ArrayList<>(edgeList));
                 edgeList.clear();
                 j++;
             }
@@ -55,7 +55,6 @@ public class Graf {
         return this.adjEdList.put(n, new ArrayList<>()) != null;
     }
 
-    //Demander pour le type de retour de la fonction
     public boolean removeNode(Node n){
         return this.adjEdList.remove(n) != null;
     }
@@ -165,8 +164,11 @@ public class Graf {
     }
 
     public int nbEdges(){
-        Collection<List<Edge>> allEdges = adjEdList.values();
-        return allEdges.size();
+        int res = 0;
+        for(List<Edge> currList: adjEdList.values()){
+            res += currList.size();
+        }
+        return res;
     }
 
     public boolean existsEdge(Node u, Node v){
