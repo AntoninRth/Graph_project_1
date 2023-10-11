@@ -9,11 +9,25 @@ public class Edge implements Comparable<Edge>{
         this.toNode = to;
     }
 
+    public Edge(Node from, Node to, int weight){
+        this.fromNode = from;
+        this.toNode = to;
+        this.weight = weight;
+    }
+
     public Edge(int idFrom, int idTo){
         Node from = new Node(idFrom);
         Node to = new Node(idTo);
         this.fromNode = from;
         this.toNode = to;
+    }
+
+    public Edge(int idFrom, int idTo, int weight){
+        Node from = new Node(idFrom);
+        Node to = new Node(idTo);
+        this.fromNode = from;
+        this.toNode = to;
+        this.weight = weight;
     }
 
     public Node from(){
