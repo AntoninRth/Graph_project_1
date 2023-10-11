@@ -66,10 +66,10 @@ public class Edge implements Comparable<Edge>{
                     if(o.to().getId() > this.to().getId()){
                         return -1;
                     }else{
-                        if(o.getWeight() < this.getWeight()){
+                        if((o.getWeight() != null && this.getWeight() !=  null) && (o.getWeight() < this.getWeight())){
                             return 1;
                         }else{
-                            if(o.getWeight() > this.getWeight()){
+                            if((o.getWeight() != null && this.getWeight() !=  null) && (o.getWeight() > this.getWeight())){
                                 return -1;
                             }
                         }
