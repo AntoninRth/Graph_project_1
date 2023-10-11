@@ -251,7 +251,10 @@ public class Graf {
     public boolean removeEdge(int fromID, int toID){
         Node from = new Node(fromID);
         Node to = new Node(toID);
-        return adjEdList.get(from).remove(new Edge(from, to));
+        if(existsNode(from) && existsNode(to) && existsEdge(from,to)){
+            return adjEdList.get(from).remove(new Edge(from, to));
+        }
+        return false;
     }
 
     public boolean removeEdge(Edge e){
