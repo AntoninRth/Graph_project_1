@@ -409,7 +409,22 @@ public class Graf {
     }
 
     public int[] toSuccessorArray(){
-        return null;
+        int i = 0;
+        String str = "";
+        for(Map.Entry<Node, List<Edge>> entry  : adjEdList.entrySet()){
+            List<Edge> edges = entry.getValue();
+                i++;
+                for(int j = 0;  j < edges.size();  j ++ ){
+                    str += "" +edges.get(j).toNode.idNode;
+                }
+            str += "0";
+        }
+        int [] successorArray = new int [str.length()];
+        for(int k = 0; k < str.length(); k++){
+            int val = Character.getNumericValue(str.charAt(k));
+            successorArray[k] = val;
+        }
+        return successorArray;
     }
 
     public int[][] toAdjMatrix(){
