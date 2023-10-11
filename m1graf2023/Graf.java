@@ -216,6 +216,19 @@ public class Graf {
         adjEdList.get(from).add(e);
     }
 
+    public void addEdge(Node from, Node to, int weight){
+        if(!this.existsNode(from.getId())){
+            this.addNode(from);
+        }
+
+        if(!this.existsNode(to.getId())){
+            this.addNode(to);
+        }
+
+        Edge e = new Edge(from,to, weight);
+        adjEdList.get(from).add(e);
+    }
+
     public void addEdge(Edge e){
         if(!this.existsNode(e.from().getId())){
             this.addNode(e.from());
@@ -229,19 +242,13 @@ public class Graf {
     }
 
     public void addEdge(int fromID, int toID){
-        Node from = new Node(fromID);
-        Node to = new Node(toID);
+        Edge e = new Edge(fromID,toID);
+        adjEdList.get(new Node(fromID)).add(e);
+    }
 
-        if(!this.existsNode(from.getId())){
-            this.addNode(from);
-        }
-
-        if(!this.existsNode(to.getId())){
-            this.addNode(to);
-        }
-
-        Edge e = new Edge(from,to);
-        adjEdList.get(from).add(e);
+    public void addEdge(int fromID, int toID, int weight){
+        Edge e = new Edge(fromID,toID,weight);
+        adjEdList.get(new Node(fromID)).add(e);
     }
 
     public boolean removeEdge(Node from, Node to){
@@ -419,7 +426,15 @@ public class Graf {
     }
 
     public Graf getReverse(){
-        return null;
+        Graf reversedGraf = new Graf();
+
+        for(Node n : adjEdList.keySet()){
+            List<Edge> neighbors = adjEdList.get(n);
+            for(Edge neighbor : neighbors){
+                reversedGraf.addEdge(neighbor.to(),n);
+            }
+        }
+        return reversedGraf;
     }
 
     public Graf getTransitiveClosure(){
