@@ -1,6 +1,10 @@
 package m1graf2023;
 
+import java.io.FileReader;
 import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 
 public class Graf {
     private final Map<Node,List<Edge>> adjEdList;
@@ -481,9 +485,42 @@ public class Graf {
     }
 
     public static Graf fromDotFile(String filename){
+        try {
+            File myObj = new File(filename+".gv");
+            Scanner myReader = new Scanner(myObj);
+            Graf g =  new Graf();
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine().trim();
+                if (line.startsWith("digraph")) {
+                    continue;
+                }
+                if (line.equals("}")) {
+                    break;
+                }
+                String[] parts = line.split("->");
+                if (parts.length == 2) {
+                    int fromNode = Integer.parseInt(parts[0].trim());
+                    int toNode = Integer.parseInt(parts[1].trim());
+
+                    Node from = new Node(fromNode);
+                    Node to = new Node(toNode);
+
+                    Edge edge = new Edge(from, to);
+
+                }
+                myReader.close();
+                return g;
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
         return null;
     }
-
+    /**
+     @TO-DO : faire 3 methodes pour convertir le graph en string compatible avec
+     d'autre format que .gv
+     */
     public static Graf fromDotFile(String filename, String extension){
         return null;
     }
@@ -500,9 +537,62 @@ public class Graf {
         return str;
     }
 
-    public void toDotFile(String fileName){}
+    public void toDotFile(String fileName){
+        try {
+            File myObj = new File(fileName+".gv");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
 
-    public void toDotFile(String fileName, String extension){}
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error");
+            e.printStackTrace();
+        }
+        try {
+            FileWriter myWriter = new FileWriter(fileName+".gv");
+            String graphe_toString = this.toDotString();
+            myWriter.write(graphe_toString);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+
+    }
+
+    /**
+        @TO-DO : faire 3 methodes pour convertir le graph en string compatible avec
+        d'autre format que .gv
+     */
+
+    public void toDotFile(String fileName, String extension){
+        try {
+            File myObj = new File(fileName+extension);
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error");
+            e.printStackTrace();
+        }
+        try {
+            FileWriter myWriter = new FileWriter(fileName+extension);
+            String graphe_toString = this.toDotString();
+            myWriter.write(graphe_toString);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 
 
 }
