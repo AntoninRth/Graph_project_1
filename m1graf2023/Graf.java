@@ -176,6 +176,10 @@ public class Graf {
     }
 
     public boolean existsEdge(Node u, Node v){
+        if(adjEdList.get(v) == null || adjEdList.get(u) == null){
+            return false;
+        }
+
         for(Edge curr: adjEdList.get(u)){
             if(curr.to().equals(v)){
                 return true;
@@ -288,7 +292,7 @@ public class Graf {
 
         for(List<Edge> currList: adjEdList.values()){
             for(Edge e: currList){
-                if(e.to() == n){
+                if(e.to().equals(n)){
                     if(!resList.contains(e)){
                         resList.add(e);
                     }
@@ -457,7 +461,47 @@ public class Graf {
     }
 
     public Graf getTransitiveClosure(){
-        return null;
+        Graf result = new Graf();
+        List<Edge> listOfEdge = new ArrayList<>();
+        boolean present = false;
+
+        for(Edge e: getAllEdges()){
+            if(!e.isSelfLoop()){
+                for(Edge currEdge: listOfEdge){
+                    if((e.from().equals(currEdge.from())) && (e.to().equals(currEdge.to()))){
+                        present = true;
+                        break;
+                    }
+                }
+                if(!present){
+                    listOfEdge.add(e);
+                    result.addEdge(e);
+                }else{
+                    present = false;
+                }
+            }
+
+        }
+        for(Node n : this.getAllNodes()){
+            for(Edge eIn : this.getInEdges(n)){
+                for(Edge eOut : this.getOutEdges(n)){
+                    if(!eIn.from().equals(eOut.to())){
+                        List<Edge> existEdge = result.getOutEdges(eIn.from());
+                        for(Edge e : existEdge){
+                            if((e.from().equals(eIn.from())) && (e.to().equals(eOut.to()))){
+                                present = true;
+                                break;
+                            }
+                        }
+                        if(!present) {
+                            result.addEdge(eIn.from(), eOut.to());
+                        }
+                        present = false;
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     public List<Node> getDFS(){
