@@ -512,9 +512,11 @@ public class Graf {
 
     public List<Node> getDFS(){
 
+        visitedNodes.clear();
+
         int smallestID = smallestNodeId();
 
-        return getDFS(new Node(smallestID));
+        return getDFS(smallestID);
     }
     public List<Node> getDFS(Node u){
         visitedNodes.add(u);
@@ -535,12 +537,79 @@ public class Graf {
         return visitedNodes;
     }
 
+    public List<Node> getDFS(int nodeID){
+        Node u = new Node(nodeID);
+        visitedNodes.add(u);
+
+        boolean present = false;
+
+        for (Edge e: getOutEdges(u)){
+            for(Node n: visitedNodes){
+                if(e.to().equals(n)){
+                    present = true;
+                }
+            }
+            if(!present){
+                getDFS(e.to());
+            }
+            present = false;
+        }
+        return visitedNodes;
+    }
+
     public List<Node> getBFS(){
-        return null;
+        visitedNodes.clear();
+        int smallestID = smallestNodeId();
+        return getBFS(smallestID);
     }
 
     public List<Node> getBFS(Node u){
-        return null;
+        Queue<Node> Q = new ArrayDeque<>();
+        boolean present = false;
+        visitedNodes.add(u);
+        Q.add(u);
+
+        while(!Q.isEmpty()){
+            Node i = Q.poll();
+            for (Edge e: getOutEdges(i)){
+                for(Node n: visitedNodes){
+                    if(e.to().equals(n)){
+                        present = true;
+                    }
+                }
+                if(!present){
+                    visitedNodes.add(e.to());
+                    Q.add(e.to());
+                }
+                present = false;
+            }
+        }
+        return visitedNodes;
+    }
+
+    public List<Node> getBFS(int nodeID){
+        Node u = new Node(nodeID);
+        Queue<Node> Q = new ArrayDeque<>();
+        boolean present = false;
+        visitedNodes.add(u);
+        Q.add(u);
+
+        while(!Q.isEmpty()){
+            Node i = Q.poll();
+            for (Edge e: getOutEdges(i)){
+                for(Node n: visitedNodes){
+                    if(e.to().equals(n)){
+                        present = true;
+                    }
+                }
+                if(!present){
+                    visitedNodes.add(e.to());
+                    Q.add(e.to());
+                }
+                present = false;
+            }
+        }
+        return visitedNodes;
     }
 
     public List<Node> getDFSWithVisitInfo(Map<Node, NodeVisitInfo> nodeVisit,
