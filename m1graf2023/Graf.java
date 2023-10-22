@@ -9,6 +9,8 @@ import java.io.FileWriter;
 public class Graf {
     private final Map<Node,List<Edge>> adjEdList;
 
+    private static List<Node> visitedNodes = new ArrayList<>();
+
     public Graf(){
         adjEdList = new TreeMap<>();
     }
@@ -197,6 +199,10 @@ public class Graf {
     public boolean existsEdge(int uID, int vID){
         Node v = new Node(vID);
         Node u = new Node(uID);
+        if(adjEdList.get(v) == null || adjEdList.get(u) == null){
+            return false;
+        }
+
         for(Edge curr: adjEdList.get(u)){
             if(curr.to().equals(v)){
                 return true;
@@ -505,10 +511,28 @@ public class Graf {
     }
 
     public List<Node> getDFS(){
-        return null;
+
+        int smallestID = smallestNodeId();
+
+        return getDFS(new Node(smallestID));
     }
     public List<Node> getDFS(Node u){
-        return null;
+        visitedNodes.add(u);
+
+        boolean present = false;
+
+        for (Edge e: getOutEdges(u)){
+            for(Node n: visitedNodes){
+                if(e.to().equals(n)){
+                    present = true;
+                }
+            }
+            if(!present){
+                getDFS(e.to());
+            }
+            present = false;
+        }
+        return visitedNodes;
     }
 
     public List<Node> getBFS(){
