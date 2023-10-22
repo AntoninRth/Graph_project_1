@@ -451,7 +451,20 @@ public class Graf {
     }
 
     public int[][] toAdjMatrix(){
-        return null;
+        int MAX = adjEdList.size();
+        int[][] matrixResult = new int[MAX][MAX];
+        for(int i = 0; i < MAX; i++){
+            for(int j = 0; j < MAX; j++){
+                matrixResult[i][j] = 0;
+            }
+        }
+
+        for(Node n: adjEdList.keySet()){
+            for(Edge e : adjEdList.get(n)){
+                matrixResult[n.getId()-1][e.to().getId()-1]++;
+            }
+        }
+        return matrixResult;
     }
 
     public Graf getReverse(){
