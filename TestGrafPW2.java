@@ -176,7 +176,8 @@ public class TestGrafPW2 {
 
         Graf g1 = new Graf(2, 4, 0, 0, 6, 0, 2, 3, 5, 8, 0, 0, 4, 7, 0, 3, 0, 7, 0);
 
-        System.out.println(">>>> DFS of guDisc: "+g1.getBFS());
+        for (int[] row: g1.toAdjMatrix())
+            System.out.println("\t"+Arrays.toString(row));
 
         System.out.println("\n********* PART 2. READING GRAPHS FROM DOT FILES **************");
         System.out.println("\n>>> Graph with isolated nodes: reading file 'isolatedNodes.gv'");
