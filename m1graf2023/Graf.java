@@ -655,12 +655,19 @@ public class Graf {
                     Node from = new Node(fromNode);
                     Node to = new Node(toNode);
 
-                    Edge edge = new Edge(from, to);
-
+                    if(!g.existsNode(from)){
+                        g.addNode(from);
+                    }
+                    if(!g.existsNode(to)){
+                        g.addNode(to);
+                    }
+                    if(!g.existsEdge(from,to)){
+                        g.addEdge(from,to);
+                    }
                 }
-                myReader.close();
-                return g;
             }
+            myReader.close();
+            return g;
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -672,6 +679,43 @@ public class Graf {
      d'autre format que .gv
      */
     public static Graf fromDotFile(String filename, String extension){
+        try {
+            File myObj = new File(filename+extension);
+            Scanner myReader = new Scanner(myObj);
+            Graf g =  new Graf();
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine().trim();
+                if (line.startsWith("digraph")) {
+                    continue;
+                }
+                if (line.equals("}")) {
+                    break;
+                }
+                String[] parts = line.split("->");
+                if (parts.length == 2) {
+                    int fromNode = Integer.parseInt(parts[0].trim());
+                    int toNode = Integer.parseInt(parts[1].trim());
+
+                    Node from = new Node(fromNode);
+                    Node to = new Node(toNode);
+
+                    if(!g.existsNode(from)){
+                        g.addNode(from);
+                    }
+                    if(!g.existsNode(to)){
+                        g.addNode(to);
+                    }
+                    if(!g.existsEdge(from,to)){
+                        g.addEdge(from,to);
+                    }
+                }
+            }
+            myReader.close();
+            return g;
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
         return null;
     }
 
