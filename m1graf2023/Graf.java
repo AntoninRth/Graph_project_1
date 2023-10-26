@@ -10,6 +10,7 @@ public class Graf {
     private final Map<Node,List<Edge>> adjEdList;
 
     private static List<Node> visitedNodes = new ArrayList<>();
+    private static int time;
 
     public Graf(){
         adjEdList = new TreeMap<>();
@@ -627,11 +628,54 @@ public class Graf {
 
     public List<Node> getDFSWithVisitInfo(Map<Node, NodeVisitInfo> nodeVisit,
                                    Map<Edge, EdgeVisitType> edgeVisit){
-        return null;
+        visitedNodes.clear();
+
+        for(Node n: adjEdList.keySet()){
+            NodeVisitInfo nodeInfo = new NodeVisitInfo(NodeColour.WHITE, null);
+            nodeVisit.put(n,nodeInfo);
+        }
+
+        time = 0;
+
+        for(Node n: adjEdList.keySet()){
+            if(nodeVisit.get(n).colour == NodeColour.WHITE){
+                getDFSWithVisitInfo(n,nodeVisit,edgeVisit);
+            }
+        }
+
+        return visitedNodes;
     }
     public List<Node> getDFSWithVisitInfo(Node u, Map<Node, NodeVisitInfo> nodeVisit,
                                    Map<Edge, EdgeVisitType> edgeVisit){
-        return null;
+        time++;
+        nodeVisit.get(u).discovery = time;
+        nodeVisit.get(u).colour = NodeColour.GRAY;
+        visitedNodes.add(u);
+        for(Edge v: adjEdList.get(u)){
+            Node to = null;
+            for(Node n: nodeVisit.keySet()){
+                if(n.equals(v.to())){
+                    to = n;
+                }
+            }
+            if(nodeVisit.get(to).colour == NodeColour.BLACK){
+                edgeVisit.put(v,EdgeVisitType.BACKWARD);
+            } else if (nodeVisit.get(u).colour == NodeColour.BLACK){
+                edgeVisit.put(v,EdgeVisitType.FORWARD);
+            } else if (nodeVisit.get(to).colour == NodeColour.GRAY) {
+                edgeVisit.put(v,EdgeVisitType.CROSS);
+            }else{
+                edgeVisit.put(v,EdgeVisitType.TREE);
+            }
+            if(nodeVisit.get(to).colour == NodeColour.WHITE){
+                nodeVisit.get(to).predecessor = u;
+                getDFSWithVisitInfo(to,nodeVisit,edgeVisit);
+            }
+        }
+        nodeVisit.get(u).colour = NodeColour.BLACK;
+        time++;
+        nodeVisit.get(u).finished = time;
+        return visitedNodes;
     }
 
     public static Graf fromDotFile(String filename){

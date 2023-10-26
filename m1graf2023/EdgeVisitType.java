@@ -1,4 +1,8 @@
 package m1graf2023;
 
-public class EdgeVisitType {
+public enum EdgeVisitType {
+    TREE,
+    BACKWARD,
+    FORWARD,
+    CROSS
 }
