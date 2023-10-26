@@ -1,6 +1,4 @@
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import m1graf2023.*;
 public class TestGrafPW2 {
@@ -173,11 +171,6 @@ public class TestGrafPW2 {
             System.out.println("Edge (4, 2) exists");
         else
             System.out.println("There is no edge (4, 2)");
-
-        Graf g1 = new Graf(2, 4, 0, 0, 6, 0, 2, 3, 5, 8, 0, 0, 4, 7, 0, 3, 0, 7, 0);
-
-        for (int[] row: g1.toAdjMatrix())
-            System.out.println("\t"+Arrays.toString(row));
 
         System.out.println("\n********* PART 2. READING GRAPHS FROM DOT FILES **************");
         System.out.println("\n>>> Graph with isolated nodes: reading file 'isolatedNodes.gv'");
