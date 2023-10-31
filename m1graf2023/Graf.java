@@ -259,6 +259,20 @@ public class Graf {
         Collections.sort(adjEdList.get(from));
     }
 
+    public void addEdge(Node from, Node to, int weight, int label){
+        if(!this.existsNode(from.getId())){
+            this.addNode(from);
+        }
+
+        if(!this.existsNode(to.getId())){
+            this.addNode(to);
+        }
+
+        Edge e = new Edge(from,to, weight, label);
+        adjEdList.get(from).add(e);
+        Collections.sort(adjEdList.get(from));
+    }
+
     public void addEdge(Edge e){
         if(!this.existsNode(e.from().getId())){
             this.addNode(e.from());
@@ -285,8 +299,8 @@ public class Graf {
         Collections.sort(adjEdList.get(new Node(fromID)));
     }
 
-    public void addEdge(int fromID, int toID, int weight){
-        Edge e = new Edge(fromID,toID,weight);
+    public void addEdge(int fromID, int toID, int weight, int label){
+        Edge e = new Edge(fromID,toID,weight, label);
         adjEdList.get(new Node(fromID)).add(e);
     }
 
@@ -738,13 +752,19 @@ public class Graf {
                 if (line.startsWith("digraph")) {
                     continue;
                 }
+                if (line.startsWith("rankdir")) {
+                    continue;
+                }
                 if (line.equals("}")) {
                     break;
                 }
-                String[] parts = line.split("->");
-                if (parts.length == 2) {
-                    int fromNode = Integer.parseInt(parts[0].trim());
-                    int toNode = Integer.parseInt(parts[1].trim());
+                String[] firstPart = line.split("\\[");
+                String[] nodeParth = firstPart[0].split("->");
+
+
+                if (nodeParth.length == 2) {
+                    int fromNode = Integer.parseInt(nodeParth[0].trim());
+                    int toNode = Integer.parseInt(nodeParth[1].trim());
 
                     Node from = new Node(fromNode);
                     Node to = new Node(toNode);
@@ -755,9 +775,17 @@ public class Graf {
                     if(!g.existsNode(to)){
                         g.addNode(to);
                     }
-                    g.addEdge(from,to);
-                } else if (!line.startsWith("rankdir")) {
-                    int node = Integer.parseInt(parts[0].trim());
+
+                    if(firstPart.length == 2){
+                        String[] secondPart = firstPart[1].split(",");
+                        String[] labelPart = secondPart[0].split("=");
+                        String[] lenPart = secondPart[1].split("=");
+                        g.addEdge(from,to, Integer.parseInt(lenPart[1].substring(0, lenPart[1].length()-1)), Integer.parseInt(labelPart[1]));
+                    }else{
+                        g.addEdge(from,to);
+                    }
+                } else {
+                    int node = Integer.parseInt(nodeParth[0].trim());
 
                     Node n = new Node(node);
                     if(!g.existsNode(n)){
@@ -820,21 +848,27 @@ public class Graf {
     }
 
     public String toDotString(){
-        String str = "digraph {\n";
+        StringBuilder str = new StringBuilder("digraph {\n");
         for (Map.Entry<Node, List<Edge>> entry : adjEdList.entrySet()) {
             if(degree(entry.getKey()) == 0){
-                str += entry.getKey().toString()+"\n";
+                str.append(entry.getKey().toString()).append("\n");
             }else{
 
                 List<Edge> edges = entry.getValue();
                 for(int i = 0; i< edges.size(); i++){
-                    str += edges.get(i)+"\n";
+                    str.append(edges.get(i));
+                    if(edges.get(i).getWeight() != null){
+                        str.append(" [label = "+edges.get(i).getLabel()+", len = "+edges.get(i).getWeight()+"]\n");
+                    }else{
+                        str.append("\n");
+                    }
+
                 }
             }
 
         }
-        str += "}";
-        return str;
+        str.append("}");
+        return str.toString();
     }
 
     public void toDotFile(String fileName){
