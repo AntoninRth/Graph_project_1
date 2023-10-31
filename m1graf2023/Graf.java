@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.FileWriter;
 
 public class Graf {
-    private final Map<Node,List<Edge>> adjEdList;
+    protected static Map<Node,List<Edge>> adjEdList;
 
     private static List<Node> visitedNodes = new ArrayList<>();
     private static int time;
@@ -681,6 +681,9 @@ public class Graf {
     public static Graf fromDotFile(String filename){
         try {
             File myObj = new File(filename+".gv");
+            if(!myObj.exists()){
+                myObj = new File(filename+".dot");
+            }
             Scanner myReader = new Scanner(myObj);
             Graf g =  new Graf();
             while (myReader.hasNextLine()) {
