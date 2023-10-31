@@ -3,6 +3,7 @@ package m1graf2023;
 public class Edge implements Comparable<Edge>{
     Node fromNode, toNode;
     Integer weight;
+    int label;
 
     public Edge(Node from, Node to){
         this.fromNode = from;
@@ -13,6 +14,13 @@ public class Edge implements Comparable<Edge>{
         this.fromNode = from;
         this.toNode = to;
         this.weight = weight;
+    }
+
+    public Edge(Node from, Node to, int weight, int label){
+        this.fromNode = from;
+        this.toNode = to;
+        this.weight = weight;
+        this.label = label;
     }
 
     public Edge(int idFrom, int idTo){
@@ -28,6 +36,15 @@ public class Edge implements Comparable<Edge>{
         this.fromNode = from;
         this.toNode = to;
         this.weight = weight;
+    }
+
+    public Edge(int idFrom, int idTo, int weight, int label){
+        Node from = new Node(idFrom);
+        Node to = new Node(idTo);
+        this.fromNode = from;
+        this.toNode = to;
+        this.weight = weight;
+        this.label = label;
     }
 
     public Node from(){
@@ -65,6 +82,8 @@ public class Edge implements Comparable<Edge>{
     public Integer getWeight(){
         return weight;
     }
+
+    public int getLabel(){ return label;}
 
     @Override
     public int compareTo(Edge o) {
