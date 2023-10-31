@@ -1,6 +1,9 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import m1graf2023.*;
+
 public class TestGrafPW2 {
 
     public static void main(String[] args) {
@@ -15,10 +18,10 @@ public class TestGrafPW2 {
         List<Node> nodes = g.getAllNodes();
         Collections.sort(nodes);
         for (Node n: nodes)
-            System.out.println("m1graf2023.Node "+n+": degree "+g.degree(n)+" (in: "+g.inDegree(n)+"/ out: "+g.outDegree(n)+")");
+            System.out.println("Node "+n+": degree "+g.degree(n)+" (in: "+g.inDegree(n)+"/ out: "+g.outDegree(n)+")");
 
         List<Edge> edges;
-        System.out.println(">> src.Edges: ");
+        System.out.println(">> Edges: ");
         System.out.println("---------------------------");
         System.out.println("Out-edges per node");
         for (Node n: nodes) {
@@ -55,7 +58,7 @@ public class TestGrafPW2 {
         Collections.sort(nodes);
         System.out.println("Nodes list: "+nodes);
 
-        System.out.println(">> src.Edges: ");
+        System.out.println(">> Edges: ");
         System.out.println("---------------------------");
         System.out.println("Out-edges per node");
         for (Node n: nodes) {
@@ -85,7 +88,7 @@ public class TestGrafPW2 {
         System.out.println("Nodes list: "+nodes);
 
         System.out.println("");
-        System.out.println("\n>>>>>>>>  src.Edges removal");
+        System.out.println("\n>>>>>>>>  Edges removal");
         System.out.println(">>>> Removing existing edges (7, 3) and (4, 8)");
         g.removeEdge(7, 3);
         g.removeEdge(4, 8);
@@ -130,7 +133,7 @@ public class TestGrafPW2 {
         System.out.println("Nodes list: "+nodes);
         System.out.println("Degree of node 6: "+g.degree(6)+" (in: "+g.inDegree(6)+"/ out: "+g.outDegree(6)+")");
 
-        System.out.println(">> src.Edges: ");
+        System.out.println(">> Edges: ");
         System.out.println("---------------------------");
         System.out.println("Out-edges per node");
         for (Node n: nodes) {
@@ -162,9 +165,9 @@ public class TestGrafPW2 {
 
         System.out.println(">>>> Searching for node 7");
         if (g.existsNode(7))
-            System.out.println("m1graf2023.Node 7 exists");
+            System.out.println("Node 7 exists");
         else
-            System.out.println("There is no m1graf2023.Node 7");
+            System.out.println("There is no Node 7");
 
         System.out.println(">>>> Searching for edge (4, 2)");
         if (g.existsEdge(4, 2))
@@ -256,9 +259,9 @@ public class TestGrafPW2 {
 
 
 
+/*
 
-
-        /**System.out.println("\n\n************ PART 4. UNDIRECTED UNWEIGHTED GRAPHS ***********************");
+        System.out.println("\n\n************ PART 4. UNDIRECTED UNWEIGHTED GRAPHS ***********************");
 
         System.out.println("Creating an undirected simple graph usg from scracth");
         UndirectedGraf usg = new UndirectedGraf(2,3,0, 3,4,0, 4,0, 0);
@@ -267,11 +270,11 @@ public class TestGrafPW2 {
 
         System.out.println("\n>>>>>> usg: Counting degrees and showing successors");
         for (Node u: usg.getAllNodes()) {
-            System.out.println("m1graf2023.Node "+u+". Degree: "+usg.degree(u.getId())+" (In: "+usg.inDegree(u.getId())+" / Out: "+usg.outDegree(u.getId())+")");
+            System.out.println("Node "+u+". Degree: "+usg.degree(u.getId())+" (In: "+usg.inDegree(u.getId())+" / Out: "+usg.outDegree(u.getId())+")");
             System.out.println("\tSuccessors: "+usg.getSuccessors(u));
         }
 
-        System.out.println(">>>>>> usg: src.Edges of the graph");
+        System.out.println(">>>>>> usg: Edges of the graph");
         System.out.println("// N.B. The edges are printed as though they were directed. This is due to the toString()\n"
                 + "// method that was not overridden. It is possible to do better but not important.\n"
                 + "// What is important is that each edge appears only once per direction.");
@@ -296,11 +299,11 @@ public class TestGrafPW2 {
 
         System.out.println("\n>>>>>> umg: Counting degrees and showing successors");
         for (Node u: umg.getAllNodes()) {
-            System.out.println("m1graf2023.Node "+u+". Degree: "+umg.degree(u.getId())+" (In: "+umg.inDegree(u.getId())+" / Out: "+umg.outDegree(u.getId())+")");
+            System.out.println("Node "+u+". Degree: "+umg.degree(u.getId())+" (In: "+umg.inDegree(u.getId())+" / Out: "+umg.outDegree(u.getId())+")");
             System.out.println("\tSuccessors: "+umg.getSuccessors(u));
         }
 
-        System.out.println(">>>>>> umg: src.Edges of the graph");
+        System.out.println(">>>>>> umg: Edges of the graph");
         System.out.println("All edges of the graph: "+umg.getAllEdges());
         System.out.println("Out-edges per node");
         for (Node u: umg.getAllNodes())
@@ -376,9 +379,9 @@ public class TestGrafPW2 {
             Collections.sort(succsMulti);
             System.out.println(""+u+" single successors: "+succs);
             System.out.println(""+u+" multi  successors: "+succsMulti);
-        }**/
+        }
 
-
+*/
     }
 
 }
