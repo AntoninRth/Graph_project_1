@@ -36,4 +36,8 @@ public class Node implements Comparable<Node>{
         }
         return 0;
     }
+    
+    public String toString(){
+        return String.valueOf(this.getId());
+    }
 }

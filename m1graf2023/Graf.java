@@ -54,29 +54,42 @@ public class Graf {
     }
 
     public boolean addNode(Node n){
-        return this.adjEdList.put(n, new ArrayList<>()) != null;
+        List<Edge> edgeList =  new ArrayList<>();
+        return this.adjEdList.put(n, edgeList) == null;
     }
 
     public boolean addNode(int idNode){
         Node n = new Node(idNode);
-        return this.adjEdList.put(n, new ArrayList<>()) != null;
+        return addNode(n);
     }
 
     public boolean removeNode(Node n){
+        for(Node u : adjEdList.keySet()){
+            adjEdList.get(u).removeIf(curr -> curr.to().equals(n));
+        }
+
         return this.adjEdList.remove(n) != null;
     }
 
     public boolean removeNode(int nodeID){
         Node n = new Node(nodeID);
-        return this.adjEdList.remove(n) != null;
+        return removeNode(n);
     }
 
     public List<Node> getSuccessors(Node n){
         List<Node> res = new ArrayList<>();
+        boolean present = false;
         for(Edge curr : adjEdList.get(n)){
-            if(!res.contains(curr.to())){
+            present = false;
+            for(Node u: res){
+                if(u.equals(curr.to())){
+                    present = true;
+                }
+            }
+            if(!present){
                 res.add(curr.to());
             }
+
         }
         return res;
     }
@@ -229,6 +242,7 @@ public class Graf {
 
         Edge e = new Edge(from,to);
         adjEdList.get(from).add(e);
+        Collections.sort(adjEdList.get(from));
     }
 
     public void addEdge(Node from, Node to, int weight){
@@ -242,6 +256,7 @@ public class Graf {
 
         Edge e = new Edge(from,to, weight);
         adjEdList.get(from).add(e);
+        Collections.sort(adjEdList.get(from));
     }
 
     public void addEdge(Edge e){
@@ -254,11 +269,20 @@ public class Graf {
         }
 
         adjEdList.get(e.from()).add(e);
+        Collections.sort(adjEdList.get(e.from()));
     }
 
     public void addEdge(int fromID, int toID){
+        if(!this.existsNode(fromID)){
+            this.addNode(fromID);
+        }
+
+        if(!this.existsNode(toID)){
+            this.addNode(toID);
+        }
         Edge e = new Edge(fromID,toID);
         adjEdList.get(new Node(fromID)).add(e);
+        Collections.sort(adjEdList.get(new Node(fromID)));
     }
 
     public void addEdge(int fromID, int toID, int weight){
@@ -267,20 +291,28 @@ public class Graf {
     }
 
     public boolean removeEdge(Node from, Node to){
-        return adjEdList.get(from).remove(new Edge(from, to));
+        for(Edge e : adjEdList.get(from)){
+            if(e.to().equals(to)){
+                return adjEdList.get(from).remove(e);
+            }
+        }
+        return false;
     }
 
     public boolean removeEdge(int fromID, int toID){
         Node from = new Node(fromID);
         Node to = new Node(toID);
         if(existsNode(from) && existsNode(to) && existsEdge(from,to)){
-            return adjEdList.get(from).remove(new Edge(from, to));
+            return removeEdge(from,to);
         }
         return false;
     }
 
     public boolean removeEdge(Edge e){
-        return adjEdList.get(e.from()).remove(e);
+        if(existsNode(e.from()) && existsNode(e.to()) && existsEdge(e.from(),e.to())){
+            return removeEdge(e.from(),e.to());
+        }
+        return false;
     }
 
     public List<Edge> getOutEdges(Node n){
@@ -384,39 +416,39 @@ public class Graf {
     }
 
     public int inDegree(Node n){
-        List<Edge> nEdge = adjEdList.get(n);
-        return nEdge.size();
+        int res = 0;
+        for(List<Edge> edgeList: adjEdList.values()){
+            for(Edge e: edgeList){
+                if(e.to().equals(n)){
+                    res++;
+                }
+            }
+        }
+        return res;
     }
 
     public int inDegree(int nodeID){
         Node n = new Node(nodeID);
+        int res = 0;
+        for(List<Edge> edgeList: adjEdList.values()){
+            for(Edge e: edgeList){
+                if(e.to().equals(n)){
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+
+    public int outDegree(Node n){
         List<Edge> nEdge = adjEdList.get(n);
         return nEdge.size();
     }
 
-    public int outDegree(Node n){
-        int res = 0;
-        for(List<Edge> edgeList: adjEdList.values()){
-            for(Edge e: edgeList){
-                if(e.to().equals(n)){
-                    res++;
-                }
-            }
-        }
-        return res;
-    }
-
     public int outDegree(int nodeID){
         Node n = new Node(nodeID);
-        int res = 0;
-        for(List<Edge> edgeList: adjEdList.values()){
-            for(Edge e: edgeList){
-                if(e.to().equals(n)){
-                    res++;
-                }
-            }
-        }
-        return res;
+        List<Edge> nEdge = adjEdList.get(n);
+        return nEdge.size();
     }
 
     public int degree(Node n){
@@ -485,6 +517,7 @@ public class Graf {
         List<Edge> listOfEdge = new ArrayList<>();
         boolean present = false;
 
+        //On ajoute les edges existants dans le nouveau graphe
         for(Edge e: getAllEdges()){
             if(!e.isSelfLoop()){
                 for(Edge currEdge: listOfEdge){
@@ -502,25 +535,39 @@ public class Graf {
             }
 
         }
-        for(Node n : this.getAllNodes()){
-            for(Edge eIn : this.getInEdges(n)){
-                for(Edge eOut : this.getOutEdges(n)){
-                    if(!eIn.from().equals(eOut.to())){
-                        List<Edge> existEdge = result.getOutEdges(eIn.from());
-                        for(Edge e : existEdge){
-                            if((e.from().equals(eIn.from())) && (e.to().equals(eOut.to()))){
-                                present = true;
-                                break;
+
+        boolean change = false;
+        do{
+            change = false;
+            //On parcourt tous les noeuds du graph
+            for(Node n : result.getAllNodes()){
+                //On passe par tous les edges entrants dans ce noeud
+                for(Edge eIn : result.getInEdges(n)){
+                    //On passe par tous les edges sortants de ce noeud
+                    for(Edge eOut : result.getOutEdges(n)){
+                        //On évite les boucles sur le même noeud
+                        if(!eIn.from().equals(eOut.to())){
+                            //On vérifie que le lien que l'on veut créer n'existe pas déjà
+                            List<Edge> existEdge = result.getOutEdges(eIn.from());
+                            for(Edge e : existEdge){
+                                if((e.from().equals(eIn.from())) && (e.to().equals(eOut.to()))){
+                                    present = true;
+                                    break;
+                                }
                             }
+
+                            //S'il n'existe pas, on l'ajoute au nouveau graph
+                            if(!present) {
+                                result.addEdge(eIn.from(), eOut.to());
+                                change = true;
+                            }
+                            present = false;
                         }
-                        if(!present) {
-                            result.addEdge(eIn.from(), eOut.to());
-                        }
-                        present = false;
                     }
                 }
             }
-        }
+        }while (change);
+
         return result;
     }
 
@@ -705,10 +752,16 @@ public class Graf {
                     if(!g.existsNode(to)){
                         g.addNode(to);
                     }
-                    if(!g.existsEdge(from,to)){
-                        g.addEdge(from,to);
+                    g.addEdge(from,to);
+                } else if (!line.startsWith("rankdir")) {
+                    int node = Integer.parseInt(parts[0].trim());
+
+                    Node n = new Node(node);
+                    if(!g.existsNode(n)){
+                        g.addNode(n);
                     }
                 }
+
             }
             myReader.close();
             return g;
@@ -764,12 +817,18 @@ public class Graf {
     }
 
     public String toDotString(){
-        String str = "digraph figureOne {\n";
+        String str = "digraph {\n";
         for (Map.Entry<Node, List<Edge>> entry : adjEdList.entrySet()) {
-            List<Edge> edges = entry.getValue();
-            for(int i = 0; i< edges.size(); i++){
-                str += edges.get(i)+"\n";
+            if(degree(entry.getKey()) == 0){
+                str += entry.getKey().toString()+"\n";
+            }else{
+
+                List<Edge> edges = entry.getValue();
+                for(int i = 0; i< edges.size(); i++){
+                    str += edges.get(i)+"\n";
+                }
             }
+
         }
         str += "}";
         return str;
