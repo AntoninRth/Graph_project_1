@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import jdk.nashorn.internal.runtime.regexp.joni.exception.SyntaxException;
 import m1graf2023.*;
 
 public class TestGrafPW2 {
@@ -153,7 +154,6 @@ public class TestGrafPW2 {
         System.out.println(g.getReverse().toDotString());
 
         System.out.println(">>>>>>>>>>    Get the transitive closure");
-        System.out.println(g.toDotString());
         System.out.println(g.getTransitiveClosure().toDotString());
 
         System.out.println(">>>>>>>>>>    Emptying the graph by removing all its nodes");
