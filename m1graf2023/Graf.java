@@ -15,7 +15,7 @@ public class Graf {
     /**
      * protected map for all the nodes and their edges of the graph
      */
-    protected static Map<Node,List<Edge>> adjEdList;
+    protected Map<Node,List<Edge>> adjEdList;
 
     /**
      * private list for the visited Nodes
@@ -743,11 +743,12 @@ public class Graf {
      * @return a graph with transitive closure
      */
     public Graf getTransitiveClosure(){
+        List<Edge> tempEdges = getAllEdges();
         Graf result = new Graf();
         List<Edge> listOfEdge = new ArrayList<>();
         boolean present = false;
 
-        for(Edge e: getAllEdges()){
+        for(Edge e: tempEdges){
             if(!e.isSelfLoop()){
                 for(Edge currEdge: listOfEdge){
                     if(e.equals(currEdge)){
