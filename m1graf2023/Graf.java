@@ -1087,7 +1087,7 @@ public class Graf {
      * @return the printing of the graph
      */
     public String toDotString(){
-        StringBuilder str = new StringBuilder("digraph {\n");
+        StringBuilder str = new StringBuilder("digraph {\nrankdir=LR\n");
         for (Map.Entry<Node, List<Edge>> entry : adjEdList.entrySet()) {
             if(degree(entry.getKey()) == 0){
                 str.append(entry.getKey().toString()).append("\n");
