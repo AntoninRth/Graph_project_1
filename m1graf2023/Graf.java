@@ -1095,7 +1095,7 @@ public class Graf {
 
                 List<Edge> edges = entry.getValue();
                 for(int i = 0; i< edges.size(); i++){
-                    str.append(edges.get(i));
+                    str.append(edges.get(i).from()+" -> "+edges.get(i).to());
                     if(edges.get(i).getWeight() != null){
                         str.append(" [label = "+edges.get(i).getLabel()+", len = "+edges.get(i).getWeight()+"]\n");
                     }else{
