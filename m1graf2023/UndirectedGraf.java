@@ -1,6 +1,5 @@
 package m1graf2023;
 
-import javax.xml.stream.events.EntityDeclaration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -192,5 +191,89 @@ public class UndirectedGraf extends Graf{
         str.append("}");
         return str.toString();
     }
+    /**
+     * Get the transitive closure of the current graph
+     * @return a graph with transitive closure
+     */
+    @Override
+    public UndirectedGraf getTransitiveClosure() {
+        List<Edge> tempEdges = getAllEdges();
+        UndirectedGraf result = new UndirectedGraf();
+        List<Edge> listOfEdge = new ArrayList<>();
+        boolean present = false;
+
+        for(Edge e: tempEdges){
+            if(!e.isSelfLoop()){
+                for(Edge currEdge: listOfEdge){
+                    if(e.equals(currEdge)){
+                        present = true;
+                        break;
+                    }
+                }
+                if(!present){
+                    listOfEdge.add(e);
+                    result.addEdge(e);
+                }else{
+                    present = false;
+                }
+            }
+
+        }
+
+        boolean change = false;
+        do{
+            change = false;
+            //On parcourt tous les noeuds du graph
+            for(Node n : result.getAllNodes()){
+                //On passe par tous les edges entrants dans ce noeud
+                for(Edge eIn : result.getInEdges(n)){
+                    //On passe par tous les edges sortants de ce noeud
+                    for(Edge eOut : result.getOutEdges(n)){
+                        //On évite les boucles sur le même noeud
+                        if(!eIn.from().equals(eOut.to())){
+                            //On vérifie que le lien que l'on veut créer n'existe pas déjà
+                            List<Edge> existEdge = result.getOutEdges(eIn.from());
+                            for(Edge e : existEdge){
+                                if( ( (e.from().equals(eIn.from())) && (e.to().equals(eOut.to())) ) /*|| ( (e.from().equals(eIn.from())) && (e.to().equals(eOut.to())) ) */){
+                                    present = true;
+                                    break;
+                                }
+                            }
+
+                            //S'il n'existe pas, on l'ajoute au nouveau graph
+                            if(!present) {
+                                result.addEdge(eIn.from(), eOut.to());
+                               // result.addEdge(eIn.to(), eOut.from());
+                                 result.addEdge(eOut.to(), eIn.from());
+
+                                change = true;
+
+                            }
+                            present = false;
+                        }
+                    }
+                }
+            }
+        }while (change);
+
+        return result;
+    }
+
+  public static UndirectedGraf fromDotFile(String filename){
+        return null;
+  }
+
+  // voir si utile
+  public List<Node> getSuccessorsMulti(Node n){
+        return null;
+  }
+
+  /*
+  /dfs
+   */
+
+    /*
+    BFS
+     */
 
 }
