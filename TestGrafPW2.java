@@ -259,7 +259,7 @@ public class TestGrafPW2 {
 
 
 
-/*
+
 
         System.out.println("\n\n************ PART 4. UNDIRECTED UNWEIGHTED GRAPHS ***********************");
 
@@ -346,7 +346,7 @@ public class TestGrafPW2 {
         System.out.println(">>>> DFS of guDisc: "+guDisc.getDFS());
         System.out.println(">>>> BFS of guDisc: "+guDisc.getBFS());
 
-        System.out.println(">>>>>>> Computing guDisc's transitive closure");
+        /*System.out.println(">>>>>>> Computing guDisc's transitive closure");
         UndirectedGraf guDiscTC = guDisc.getTransitiveClosure();
         System.out.println(guDiscTC.toDotString());
 
@@ -379,9 +379,9 @@ public class TestGrafPW2 {
             Collections.sort(succsMulti);
             System.out.println(""+u+" single successors: "+succs);
             System.out.println(""+u+" multi  successors: "+succsMulti);
-        }
+        }*/
 
-*/
+
     }
 
 }
