@@ -137,19 +137,7 @@ public class UndirectedGraf extends Graf{
      * @return the number of out edges of the node n
      */
     public int outDegree(Node n){
-        List<Edge> nEdge = adjEdList.get(n);
-
-        int res = nEdge.size();
-
-        for(List<Edge> edgeList: adjEdList.values()){
-            for(Edge e: edgeList){
-                if(e.from().equals(n)){
-                    res++;
-                }
-            }
-        }
-
-        return res;
+        return inDegree(n);
     }
 
     /**
@@ -158,9 +146,48 @@ public class UndirectedGraf extends Graf{
      * @return the number of out edges of the node n
      */
     public int outDegree(int nodeID){
+        return inDegree(new Node(nodeID));
+    }
+
+    /**
+     * Get the union between in and out degree of the node n
+     * In and out degree are the same edges so we count each edge just one time
+     * @param n the node
+     * @return the number of edges where n is involved
+     */
+    public int degree(Node n){
+        return inDegree(n);
+    }
+
+    /**
+     * Get the union between in and out degree of the node n
+     * In and out degree are the same edges so we count each edge just one time
+     * @param n the node
+     * @return the number of edges where n is involved
+     */
+    public int degree(int nodeID){
+        return degree(new Node(nodeID));
+    }
+
+    /**
+     * Get the out edges of the node n
+     * @param n the node
+     * @return a list of edges
+     */
+    public List<Edge> getOutEdges(Node n){
+
+        return new ArrayList<>(adjEdList.get(n));
+    }
+
+    /**
+     * Get the out edges of the node n
+     * @param nodeID the node id
+     * @return a list of edges
+     */
+    public List<Edge> getOutEdges(int nodeID){
         Node n = new Node(nodeID);
-        List<Edge> nEdge = adjEdList.get(n);
-        return nEdge.size();
+
+        return new ArrayList<>(adjEdList.get(n));
     }
 
 
