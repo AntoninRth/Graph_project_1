@@ -560,7 +560,7 @@ public class Graf {
     public List<Edge> getIncidentEdges(int nodeID){
         Node n = new Node(nodeID);
 
-        return getInEdges(n);
+        return getIncidentEdges(n);
     }
 
     /**
