@@ -5,16 +5,35 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for an undirected graph
+ * @author Romain CHUAT
+ * @author Antonin ROTHE
+ */
+
+
 public class UndirectedGraf extends Graf{
 
+    /**
+     * constructor of an empty graph
+     */
     public UndirectedGraf(){
         super();
     }
 
+    /**
+     * constructor of a graph from an array
+     * @param SuccessorArray who contains node and their edges
+     */
     public UndirectedGraf(int ... SuccessorArray){
         super(SuccessorArray);
     }
 
+    /**
+     * Search the neighbors of a node
+     * @param n the node we used
+     * @return the list of the successor
+     */
     public List<Node> getSuccessors(Node n){
         List<Node> result = super.getSuccessors(n);
         boolean present;
@@ -38,13 +57,23 @@ public class UndirectedGraf extends Graf{
 
         return result;
     }
+
+    /**
+     * Search the neighbors of a node
+     * @param nodeID the id of the node we used
+     * @return the list of the successor
+     */
     public List<Node> getSuccessors(int nodeID){
         Node n = new Node(nodeID);
         return getSuccessors(n);
     }
 
 
-
+    /**
+     * Add an edge to the current graph
+     * @param from first node of the edge
+     * @param to second node of the edge
+     */
     public void addEdge(Node from, Node to){
         if(!this.existsNode(from.getId())){
             this.addNode(from);
@@ -62,6 +91,12 @@ public class UndirectedGraf extends Graf{
 
     }
 
+    /**
+     * Add an edge to the current graph
+     * @param from first node of the edge
+     * @param to second node of the edge
+     * @param weight of the edge
+     */
     public void addEdge(Node from, Node to, int weight){
         if(!this.existsNode(from.getId())){
             this.addNode(from);
@@ -78,23 +113,22 @@ public class UndirectedGraf extends Graf{
         Collections.sort(adjEdList.get(from));
     }
 
-    public void addEdge(Edge e){
-        if(!this.existsNode(e.from().getId())){
-            this.addNode(e.from());
-        }
-
-        if(!this.existsNode(e.to().getId())){
-            this.addNode(e.to());
-        }
-
-        adjEdList.get(e.from()).add(e);
-    }
-
+    /**
+     * Add an edge to the current graph
+     * @param fromID of the first node
+     * @param toID of the second node
+     */
     public void addEdge(int fromID, int toID){
         Edge e = new Edge(fromID,toID);
         adjEdList.get(new Node(fromID)).add(e);
     }
 
+    /**
+     * Add an edge to the current graph
+     * @param fromID of the first node
+     * @param toID of the second node
+     * @param weight of the edge
+     */
     public void addEdge(int fromID, int toID, int weight){
         Edge e = new Edge(fromID,toID,weight);
         adjEdList.get(new Node(fromID)).add(e);
@@ -161,8 +195,8 @@ public class UndirectedGraf extends Graf{
 
     /**
      * Get the union between in and out degree of the node n
-     * In and out degree are the same edges so we count each edge just one time
-     * @param n the node
+     * In and out degree are the same edges, so we count each edge just one time
+     * @param nodeID the node ID
      * @return the number of edges where n is involved
      */
     public int degree(int nodeID){
@@ -176,7 +210,7 @@ public class UndirectedGraf extends Graf{
      */
     public List<Edge> getOutEdges(Node n){
 
-        return new ArrayList<>(adjEdList.get(n));
+        return getInEdges(n);
     }
 
     /**
@@ -187,7 +221,57 @@ public class UndirectedGraf extends Graf{
     public List<Edge> getOutEdges(int nodeID){
         Node n = new Node(nodeID);
 
-        return new ArrayList<>(adjEdList.get(n));
+        return getOutEdges(n);
+    }
+
+    /**
+     * Get the in edges of the node n
+     * @param n the node
+     * @return a list of edges
+     */
+    public List<Edge> getInEdges(Node n){
+        List<Edge> resList = new ArrayList<>();
+
+        for(List<Edge> currList: adjEdList.values()){
+            for(Edge e: currList){
+                if(e.to().equals(n)){
+                    if(!resList.contains(e)){
+                        resList.add(e);
+                    }
+                }
+            }
+        }
+        resList.addAll(adjEdList.get(n));
+        return resList;
+    }
+
+    /**
+     * Get the in edges of the node n
+     * @param nodeID the node id
+     * @return a list of edges
+     */
+    public List<Edge> getInEdges(int nodeID){
+        Node n = new Node(nodeID);
+
+        return getInEdges(n);
+    }
+
+    /**
+     * Get the union between in and out edges of node n
+     * @param n the node
+     * @return a list of edges
+     */
+    public List<Edge> getIncidentEdges(Node n){
+        return getInEdges(n);
+    }
+
+    /**
+     * Get the union between in and out edges of node n
+     * @param nodeID the node id
+     * @return a list of edges
+     */
+    public List<Edge> getIncidentEdges(int nodeID){
+        return getIncidentEdges(new Node(nodeID));
     }
 
 
