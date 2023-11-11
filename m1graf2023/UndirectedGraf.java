@@ -1,9 +1,8 @@
 package m1graf2023;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Class for an undirected graph
@@ -350,7 +349,6 @@ public class UndirectedGraf extends Graf{
                                     break;
                                 }
                             }
-
                             //S'il n'existe pas, on l'ajoute au nouveau graph
                             if(!present) {
                                 result.addEdge(eIn.from(), eOut.to());
@@ -371,7 +369,67 @@ public class UndirectedGraf extends Graf{
     }
 
   public static UndirectedGraf fromDotFile(String filename){
-        return null;
+      try {
+          File myObj = new File(filename+".gv");
+          if(!myObj.exists()){
+              myObj = new File(filename+".dot");
+          }
+          Scanner myReader = new Scanner(myObj);
+          UndirectedGraf g =  new UndirectedGraf();
+          while (myReader.hasNextLine()) {
+              String line = myReader.nextLine().trim();
+              if (line.startsWith("digraph")) {
+                  continue;
+              }
+              if (line.startsWith("rankdir")) {
+                  continue;
+              }
+              if (line.equals("}")) {
+                  break;
+              }
+              String[] firstPart = line.split("\\[");
+              String[] nodeParth = firstPart[0].split("--");
+
+
+              if (nodeParth.length == 2) {
+                  int fromNode = Integer.parseInt(nodeParth[0].trim());
+                  int toNode = Integer.parseInt(nodeParth[1].trim());
+
+                  Node from = new Node(fromNode);
+                  Node to = new Node(toNode);
+
+                  if(!g.existsNode(from)){
+                      g.addNode(from);
+                  }
+                  if(!g.existsNode(to)){
+                      g.addNode(to);
+                  }
+
+                  if(firstPart.length == 2){
+                      String[] secondPart = firstPart[1].split(",");
+                      String[] labelPart = secondPart[0].split("=");
+                      String[] lenPart = secondPart[1].split("=");
+                      g.addEdge(from,to, Integer.parseInt(lenPart[1].substring(0, lenPart[1].length()-1)), Integer.parseInt(labelPart[1]));
+                  }else{
+                      g.addEdge(from,to);
+                  }
+              } else {
+                  int node = Integer.parseInt(nodeParth[0].trim());
+
+                  Node n = new Node(node);
+                  if(!g.existsNode(n)){
+                      g.addNode(n);
+                  }
+              }
+
+          }
+          myReader.close();
+          return g;
+      } catch (IOException e) {
+          System.out.println("An error occurred.");
+          e.printStackTrace();
+      }
+      return null;
   }
 
   // voir si utile
