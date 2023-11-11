@@ -279,7 +279,7 @@ public class UndirectedGraf extends Graf{
      * @return the printing of the graph
      */
     public String toDotString(){
-        StringBuilder str = new StringBuilder("digraph {\nrankdir=LR\n");
+        StringBuilder str = new StringBuilder("graph {\nrankdir=LR\n");
         for (Map.Entry<Node, List<Edge>> entry : adjEdList.entrySet()) {
             if(degree(entry.getKey()) == 0){
                 str.append(entry.getKey().toString()).append("\n");
@@ -378,7 +378,7 @@ public class UndirectedGraf extends Graf{
           UndirectedGraf g =  new UndirectedGraf();
           while (myReader.hasNextLine()) {
               String line = myReader.nextLine().trim();
-              if (line.startsWith("digraph")) {
+              if (line.startsWith("graph")) {
                   continue;
               }
               if (line.startsWith("rankdir")) {
@@ -431,6 +431,58 @@ public class UndirectedGraf extends Graf{
       }
       return null;
   }
+    /**
+     * Get a graph from a file
+     * @param filename name of the file
+     * @param extension extension of the file
+     * @return a new graph
+     */
+    public static Graf fromDotFile(String filename, String extension){
+        try {
+            File myObj = new File(filename+extension);
+            Scanner myReader = new Scanner(myObj);
+            Graf g =  new Graf();
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine().trim();
+                if (line.startsWith("graph")) {
+                    continue;
+                }
+                if (line.equals("}")) {
+                    break;
+                }
+                String[] parts = line.split("--");
+                if (parts.length == 2) {
+                    int fromNode = Integer.parseInt(parts[0].trim());
+                    int toNode = Integer.parseInt(parts[1].trim());
+
+                    Node from = new Node(fromNode);
+                    Node to = new Node(toNode);
+
+                    if(!g.existsNode(from)){
+                        g.addNode(from);
+                    }
+                    if(!g.existsNode(to)){
+                        g.addNode(to);
+                    }
+                    if(!g.existsEdge(from,to)){
+                        g.addEdge(from,to);
+                    }
+                }
+            }
+            myReader.close();
+            return g;
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // *
+    // TODO ERREUR  getOutEdges, getInEdges, IncidentEdges,
+    // TODO adjacency matrix
+
+
 
   // voir si utile
   public List<Node> getSuccessorsMulti(Node n){
