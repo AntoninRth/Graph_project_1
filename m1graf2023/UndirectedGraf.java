@@ -111,10 +111,8 @@ public class UndirectedGraf extends Graf{
             this.addNode(to);
         }
         Edge e = new Edge(from,to);
-        //Edge e1 = new Edge(to, from);
 
         adjEdList.get(from).add(e);
-        //adjEdList.get(to).add(e1);
         Collections.sort(adjEdList.get(from));
         Collections.sort(adjEdList.get(to));
 
@@ -136,9 +134,7 @@ public class UndirectedGraf extends Graf{
         }
 
         Edge e = new Edge(from,to, weight);
-        //Edge e1 = new Edge(to, from,weight);
         adjEdList.get(from).add(e);
-        //adjEdList.get(from).add(e1);
         Collections.sort(adjEdList.get(from));
     }
 
@@ -149,9 +145,7 @@ public class UndirectedGraf extends Graf{
      */
     public void addEdge(int fromID, int toID){
         Edge e = new Edge(fromID,toID);
-        //Edge e1 = new Edge(toID,fromID);
         adjEdList.get(new Node(fromID)).add(e);
-       // adjEdList.get(new Node(fromID)).add(e1);
     }
     /**
      * Get the in degree of the node n
