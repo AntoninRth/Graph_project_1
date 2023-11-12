@@ -333,7 +333,7 @@ public class TestGrafPW2 {
         UndirectedGraf guDisc = new UndirectedGraf(1,1,2,2,6,0, 2,3,6,0, 0, 6,0, 6,0, 0, 0, 9,10,0, 0, 0);
         System.out.println(guDisc.toDotString());
 
-        /*System.out.println("Comparing single and multi successors per node for guDisc");
+        System.out.println("Comparing single and multi successors per node for guDisc");
         for (Node u: guDisc.getAllNodes()) {
             List<Node> succs = guDisc.getSuccessors(u), succsMulti = guDisc.getSuccessorsMulti(u);
             // sort the lists so that nodes always appear in the same order
@@ -345,7 +345,7 @@ public class TestGrafPW2 {
 
 
         System.out.println(">>>> DFS of guDisc: "+guDisc.getDFS());
-        System.out.println(">>>> BFS of guDisc: "+guDisc.getBFS());*/
+        System.out.println(">>>> BFS of guDisc: "+guDisc.getBFS());
 
         System.out.println(">>>>>>> Computing guDisc's transitive closure");
         UndirectedGraf guDiscTC = guDisc.getTransitiveClosure();

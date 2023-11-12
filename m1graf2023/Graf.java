@@ -808,10 +808,27 @@ public class Graf {
     public List<Node> getDFS(){
 
         visitedNodes.clear();
+        boolean present;
 
         int smallestID = smallestNodeId();
 
-        return getDFS(smallestID);
+        getDFS(smallestID);
+
+        if(visitedNodes.size() != adjEdList.keySet().size()){
+            for(Node n : adjEdList.keySet()){
+                present = false;
+                for(Node m : visitedNodes){
+                    if(n.equals(m)){
+                        present = true;
+                    }
+                }
+                if(!present){
+                    getDFS(n);
+                }
+            }
+        }
+
+        return visitedNodes;
     }
 
     /**
@@ -854,8 +871,25 @@ public class Graf {
      */
     public List<Node> getBFS(){
         visitedNodes.clear();
+        boolean present;
         int smallestID = smallestNodeId();
-        return getBFS(smallestID);
+
+        getBFS(smallestID);
+
+        if(visitedNodes.size() != adjEdList.keySet().size()){
+            for(Node n : adjEdList.keySet()){
+                present = false;
+                for(Node m : visitedNodes){
+                    if(n.equals(m)){
+                        present = true;
+                    }
+                }
+                if(!present){
+                    getBFS(n);
+                }
+            }
+        }
+        return visitedNodes;
     }
 
     /**
