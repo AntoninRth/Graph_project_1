@@ -25,6 +25,22 @@ public class UndirectedGraf extends Graf{
      * @param SuccessorArray who contains node and their edges
      */
     public UndirectedGraf(int ... SuccessorArray){
+        //super(SuccessorArray);
+        /*int j = 1;
+        adjEdList = new TreeMap<>();
+        List<Edge> edgeList =  new ArrayList<>();
+        for (int k : SuccessorArray) {
+            if(k != 0){
+                Edge edge1 = new Edge(j, k);
+                Edge edge2 = new Edge(k, j);
+                edgeList.add(edge1);
+                edgeList.add(edge2);
+            }else{
+                adjEdList.put(new Node(j), new ArrayList<>(edgeList));
+                edgeList.clear();
+                j++;
+            }
+        }*/
         super(SuccessorArray);
     }
 
@@ -81,10 +97,10 @@ public class UndirectedGraf extends Graf{
             this.addNode(to);
         }
         Edge e = new Edge(from,to);
-        Edge e1 = new Edge(to, from);
+        //Edge e1 = new Edge(to, from);
 
         adjEdList.get(from).add(e);
-        adjEdList.get(to).add(e1);
+        //adjEdList.get(to).add(e1);
         Collections.sort(adjEdList.get(from));
         Collections.sort(adjEdList.get(to));
 
@@ -106,9 +122,9 @@ public class UndirectedGraf extends Graf{
         }
 
         Edge e = new Edge(from,to, weight);
-        Edge e1 = new Edge(to, from);
-
+        //Edge e1 = new Edge(to, from,weight);
         adjEdList.get(from).add(e);
+        //adjEdList.get(from).add(e1);
         Collections.sort(adjEdList.get(from));
     }
 
@@ -119,20 +135,10 @@ public class UndirectedGraf extends Graf{
      */
     public void addEdge(int fromID, int toID){
         Edge e = new Edge(fromID,toID);
+        //Edge e1 = new Edge(toID,fromID);
         adjEdList.get(new Node(fromID)).add(e);
+       // adjEdList.get(new Node(fromID)).add(e1);
     }
-
-    /**
-     * Add an edge to the current graph
-     * @param fromID of the first node
-     * @param toID of the second node
-     * @param weight of the edge
-     */
-    public void addEdge(int fromID, int toID, int weight){
-        Edge e = new Edge(fromID,toID,weight);
-        adjEdList.get(new Node(fromID)).add(e);
-    }
-
     /**
      * Get the in degree of the node n
      * @param n the node
@@ -209,7 +215,25 @@ public class UndirectedGraf extends Graf{
      */
     public List<Edge> getOutEdges(Node n){
 
-        return getInEdges(n);
+        List<Edge> resList = new ArrayList<>();
+
+        for(List<Edge> currList: adjEdList.values()){
+            for(Edge e: currList){
+                if(e.from().equals(n)){
+                    if(!resList.contains(e)){
+                        resList.add(e);
+                    }
+                }else {
+                if(e.to().equals(n)){
+                    Edge currentEdge = new Edge(e.to(),e.from());
+                    if(!resList.contains(currentEdge)){
+                        resList.add(currentEdge);
+                    }
+                }
+                }
+            }
+        }
+        return resList;
     }
 
     /**
@@ -229,19 +253,7 @@ public class UndirectedGraf extends Graf{
      * @return a list of edges
      */
     public List<Edge> getInEdges(Node n){
-        List<Edge> resList = new ArrayList<>();
-
-        for(List<Edge> currList: adjEdList.values()){
-            for(Edge e: currList){
-                if(e.to().equals(n)){
-                    if(!resList.contains(e)){
-                        resList.add(e);
-                    }
-                }
-            }
-        }
-        resList.addAll(adjEdList.get(n));
-        return resList;
+        return getOutEdges(n);
     }
 
     /**
@@ -343,8 +355,9 @@ public class UndirectedGraf extends Graf{
                         if(!eIn.from().equals(eOut.to())){
                             //On vérifie que le lien que l'on veut créer n'existe pas déjà
                             List<Edge> existEdge = result.getOutEdges(eIn.from());
+
                             for(Edge e : existEdge){
-                                if( ( (e.from().equals(eIn.from())) && (e.to().equals(eOut.to())) ) /*|| ( (e.from().equals(eIn.from())) && (e.to().equals(eOut.to())) ) */){
+                                if( ( (e.from().equals(eIn.from())) && (e.to().equals(eOut.to())) ) /*|| ( (e.to().equals(eIn.to())) && (e.from().equals(eOut.from())) )*/ ){
                                     present = true;
                                     break;
                                 }
@@ -352,11 +365,7 @@ public class UndirectedGraf extends Graf{
                             //S'il n'existe pas, on l'ajoute au nouveau graph
                             if(!present) {
                                 result.addEdge(eIn.from(), eOut.to());
-                               // result.addEdge(eIn.to(), eOut.from());
-                                 result.addEdge(eOut.to(), eIn.from());
-
                                 change = true;
-
                             }
                             present = false;
                         }
@@ -478,8 +487,7 @@ public class UndirectedGraf extends Graf{
         return null;
     }
 
-    // *
-    // TODO ERREUR  getOutEdges, getInEdges, IncidentEdges,
+    
     // TODO adjacency matrix
 
 
