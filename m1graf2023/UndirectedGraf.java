@@ -25,22 +25,6 @@ public class UndirectedGraf extends Graf{
      * @param SuccessorArray who contains node and their edges
      */
     public UndirectedGraf(int ... SuccessorArray){
-        //super(SuccessorArray);
-        /*int j = 1;
-        adjEdList = new TreeMap<>();
-        List<Edge> edgeList =  new ArrayList<>();
-        for (int k : SuccessorArray) {
-            if(k != 0){
-                Edge edge1 = new Edge(j, k);
-                Edge edge2 = new Edge(k, j);
-                edgeList.add(edge1);
-                edgeList.add(edge2);
-            }else{
-                adjEdList.put(new Node(j), new ArrayList<>(edgeList));
-                edgeList.clear();
-                j++;
-            }
-        }*/
         super(SuccessorArray);
     }
 
@@ -323,9 +307,6 @@ public class UndirectedGraf extends Graf{
     public String toDotString(){
         StringBuilder str = new StringBuilder("graph {\nrankdir=LR\n");
         for (Map.Entry<Node, List<Edge>> entry : adjEdList.entrySet()) {
-            if(degree(entry.getKey()) == 0){
-                str.append(entry.getKey().toString()).append("\n");
-            }else{
 
                 List<Edge> edges = entry.getValue();
                 for(int i = 0; i< edges.size(); i++){
@@ -337,7 +318,6 @@ public class UndirectedGraf extends Graf{
                     }
 
                 }
-            }
 
         }
         str.append("}");
