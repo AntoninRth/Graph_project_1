@@ -83,6 +83,36 @@ public class UndirectedGraf extends Graf{
         return getSuccessors(n);
     }
 
+    /**
+     * Search the successors of a node, they can be added twice in the list
+     * @param n the node we used
+     * @return the list of the successor
+     */
+    public List<Node> getSuccessorsMulti(Node n){
+        List<Node> result = super.getSuccessorsMulti(n);
+        for(List<Edge> edges: adjEdList.values()){
+            for(Edge e : edges){
+                if(e.to().equals(n)){
+                    result.add(e.from());
+                }
+            }
+        }
+
+        Collections.sort(result);
+
+        return result;
+    }
+
+    /**
+     * Search the successors of a node, they can be added twice in the list
+     * @param nodeID the id of the node we used
+     * @return the list of the successor
+     */
+    public List<Node> getSuccessorsMulti(int nodeID){
+        Node newNode = new Node(nodeID);
+        return getSuccessorsMulti(newNode);
+    }
+
 
     /**
      * Add an edge to the current graph
@@ -377,6 +407,11 @@ public class UndirectedGraf extends Graf{
         return result;
     }
 
+    /**
+     * Get a graph from a file
+     * @param filename name of the file
+     * @return a new graph
+     */
   public static UndirectedGraf fromDotFile(String filename){
       try {
           File myObj = new File(filename+".gv");
@@ -440,6 +475,7 @@ public class UndirectedGraf extends Graf{
       }
       return null;
   }
+
     /**
      * Get a graph from a file
      * @param filename name of the file
@@ -487,15 +523,43 @@ public class UndirectedGraf extends Graf{
         return null;
     }
 
-    
-    // TODO adjacency matrix
 
+    /**
+     * Print the current graph in a matrix
+     * @return the matrix
+     */
+    public int[][] toAdjMatrix(){
+        int MAX = largestNodeId();
+        int[][] matrixResult = new int[MAX][MAX];
+        for(int i = 0; i < MAX; i++){
+            for(int j = 0; j < MAX; j++){
+                matrixResult[i][j] = 0;
+            }
+        }
 
+        for(Node n: adjEdList.keySet()){
+            for(Edge e: getIncidentEdges(n)){
+                matrixResult[n.getId()-1][e.to().getId()-1]++;
+            }
+        }
+        return matrixResult;
+    }
 
-  // voir si utile
-  public List<Node> getSuccessorsMulti(Node n){
-        return null;
-  }
+    /**
+     * Get the reverse of the current graph
+     * @return the reversed graph
+     */
+    public Graf getReverse(){
+        Graf reversedGraf = new UndirectedGraf();
+        for(Node n : adjEdList.keySet()){
+            List<Edge> neighbors = adjEdList.get(n);
+            for(Edge neighbor : neighbors){
+                reversedGraf.addEdge(neighbor.to(),n);
+            }
+        }
+        return reversedGraf;
+    }
+
 
   /*
   /dfs

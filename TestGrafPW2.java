@@ -323,6 +323,7 @@ public class TestGrafPW2 {
             System.out.println("\t"+Arrays.toString(row));
 
         System.out.println("Testing via toDotString() the equality with the reverse graph");
+        System.out.println(umg.toDotString());
         String dotRUMG = umg.getReverse().toDotString();
         System.out.println("DOT of the reverse of umg\n"+dotRUMG);
         System.out.println("Graph gu and its reverse "+(dotUMG.equals(dotRUMG)?"are identical":"differ"));
