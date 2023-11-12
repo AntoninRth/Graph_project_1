@@ -1,9 +1,8 @@
 package m1graf2023;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Class for an undirected graph
@@ -26,6 +25,22 @@ public class UndirectedGraf extends Graf{
      * @param SuccessorArray who contains node and their edges
      */
     public UndirectedGraf(int ... SuccessorArray){
+        //super(SuccessorArray);
+        /*int j = 1;
+        adjEdList = new TreeMap<>();
+        List<Edge> edgeList =  new ArrayList<>();
+        for (int k : SuccessorArray) {
+            if(k != 0){
+                Edge edge1 = new Edge(j, k);
+                Edge edge2 = new Edge(k, j);
+                edgeList.add(edge1);
+                edgeList.add(edge2);
+            }else{
+                adjEdList.put(new Node(j), new ArrayList<>(edgeList));
+                edgeList.clear();
+                j++;
+            }
+        }*/
         super(SuccessorArray);
     }
 
@@ -82,10 +97,10 @@ public class UndirectedGraf extends Graf{
             this.addNode(to);
         }
         Edge e = new Edge(from,to);
-        Edge e1 = new Edge(to, from);
+        //Edge e1 = new Edge(to, from);
 
         adjEdList.get(from).add(e);
-        adjEdList.get(to).add(e1);
+        //adjEdList.get(to).add(e1);
         Collections.sort(adjEdList.get(from));
         Collections.sort(adjEdList.get(to));
 
@@ -107,9 +122,9 @@ public class UndirectedGraf extends Graf{
         }
 
         Edge e = new Edge(from,to, weight);
-        Edge e1 = new Edge(to, from);
-
+        //Edge e1 = new Edge(to, from,weight);
         adjEdList.get(from).add(e);
+        //adjEdList.get(from).add(e1);
         Collections.sort(adjEdList.get(from));
     }
 
@@ -120,20 +135,10 @@ public class UndirectedGraf extends Graf{
      */
     public void addEdge(int fromID, int toID){
         Edge e = new Edge(fromID,toID);
+        //Edge e1 = new Edge(toID,fromID);
         adjEdList.get(new Node(fromID)).add(e);
+       // adjEdList.get(new Node(fromID)).add(e1);
     }
-
-    /**
-     * Add an edge to the current graph
-     * @param fromID of the first node
-     * @param toID of the second node
-     * @param weight of the edge
-     */
-    public void addEdge(int fromID, int toID, int weight){
-        Edge e = new Edge(fromID,toID,weight);
-        adjEdList.get(new Node(fromID)).add(e);
-    }
-
     /**
      * Get the in degree of the node n
      * @param n the node
@@ -210,7 +215,25 @@ public class UndirectedGraf extends Graf{
      */
     public List<Edge> getOutEdges(Node n){
 
-        return getInEdges(n);
+        List<Edge> resList = new ArrayList<>();
+
+        for(List<Edge> currList: adjEdList.values()){
+            for(Edge e: currList){
+                if(e.from().equals(n)){
+                    if(!resList.contains(e)){
+                        resList.add(e);
+                    }
+                }else {
+                if(e.to().equals(n)){
+                    Edge currentEdge = new Edge(e.to(),e.from());
+                    if(!resList.contains(currentEdge)){
+                        resList.add(currentEdge);
+                    }
+                }
+                }
+            }
+        }
+        return resList;
     }
 
     /**
@@ -230,19 +253,7 @@ public class UndirectedGraf extends Graf{
      * @return a list of edges
      */
     public List<Edge> getInEdges(Node n){
-        List<Edge> resList = new ArrayList<>();
-
-        for(List<Edge> currList: adjEdList.values()){
-            for(Edge e: currList){
-                if(e.to().equals(n)){
-                    if(!resList.contains(e)){
-                        resList.add(e);
-                    }
-                }
-            }
-        }
-        resList.addAll(adjEdList.get(n));
-        return resList;
+        return getOutEdges(n);
     }
 
     /**
@@ -280,7 +291,7 @@ public class UndirectedGraf extends Graf{
      * @return the printing of the graph
      */
     public String toDotString(){
-        StringBuilder str = new StringBuilder("digraph {\nrankdir=LR\n");
+        StringBuilder str = new StringBuilder("graph {\nrankdir=LR\n");
         for (Map.Entry<Node, List<Edge>> entry : adjEdList.entrySet()) {
             if(degree(entry.getKey()) == 0){
                 str.append(entry.getKey().toString()).append("\n");
@@ -344,21 +355,17 @@ public class UndirectedGraf extends Graf{
                         if(!eIn.from().equals(eOut.to())){
                             //On vérifie que le lien que l'on veut créer n'existe pas déjà
                             List<Edge> existEdge = result.getOutEdges(eIn.from());
+
                             for(Edge e : existEdge){
-                                if( ( (e.from().equals(eIn.from())) && (e.to().equals(eOut.to())) ) /*|| ( (e.from().equals(eIn.from())) && (e.to().equals(eOut.to())) ) */){
+                                if( ( (e.from().equals(eIn.from())) && (e.to().equals(eOut.to())) ) /*|| ( (e.to().equals(eIn.to())) && (e.from().equals(eOut.from())) )*/ ){
                                     present = true;
                                     break;
                                 }
                             }
-
                             //S'il n'existe pas, on l'ajoute au nouveau graph
                             if(!present) {
                                 result.addEdge(eIn.from(), eOut.to());
-                               // result.addEdge(eIn.to(), eOut.from());
-                                 result.addEdge(eOut.to(), eIn.from());
-
                                 change = true;
-
                             }
                             present = false;
                         }
@@ -371,8 +378,119 @@ public class UndirectedGraf extends Graf{
     }
 
   public static UndirectedGraf fromDotFile(String filename){
-        return null;
+      try {
+          File myObj = new File(filename+".gv");
+          if(!myObj.exists()){
+              myObj = new File(filename+".dot");
+          }
+          Scanner myReader = new Scanner(myObj);
+          UndirectedGraf g =  new UndirectedGraf();
+          while (myReader.hasNextLine()) {
+              String line = myReader.nextLine().trim();
+              if (line.startsWith("graph")) {
+                  continue;
+              }
+              if (line.startsWith("rankdir")) {
+                  continue;
+              }
+              if (line.equals("}")) {
+                  break;
+              }
+              String[] firstPart = line.split("\\[");
+              String[] nodeParth = firstPart[0].split("--");
+
+
+              if (nodeParth.length == 2) {
+                  int fromNode = Integer.parseInt(nodeParth[0].trim());
+                  int toNode = Integer.parseInt(nodeParth[1].trim());
+
+                  Node from = new Node(fromNode);
+                  Node to = new Node(toNode);
+
+                  if(!g.existsNode(from)){
+                      g.addNode(from);
+                  }
+                  if(!g.existsNode(to)){
+                      g.addNode(to);
+                  }
+
+                  if(firstPart.length == 2){
+                      String[] secondPart = firstPart[1].split(",");
+                      String[] labelPart = secondPart[0].split("=");
+                      String[] lenPart = secondPart[1].split("=");
+                      g.addEdge(from,to, Integer.parseInt(lenPart[1].substring(0, lenPart[1].length()-1)), Integer.parseInt(labelPart[1]));
+                  }else{
+                      g.addEdge(from,to);
+                  }
+              } else {
+                  int node = Integer.parseInt(nodeParth[0].trim());
+
+                  Node n = new Node(node);
+                  if(!g.existsNode(n)){
+                      g.addNode(n);
+                  }
+              }
+
+          }
+          myReader.close();
+          return g;
+      } catch (IOException e) {
+          System.out.println("An error occurred.");
+          e.printStackTrace();
+      }
+      return null;
   }
+    /**
+     * Get a graph from a file
+     * @param filename name of the file
+     * @param extension extension of the file
+     * @return a new graph
+     */
+    public static Graf fromDotFile(String filename, String extension){
+        try {
+            File myObj = new File(filename+extension);
+            Scanner myReader = new Scanner(myObj);
+            Graf g =  new Graf();
+            while (myReader.hasNextLine()) {
+                String line = myReader.nextLine().trim();
+                if (line.startsWith("graph")) {
+                    continue;
+                }
+                if (line.equals("}")) {
+                    break;
+                }
+                String[] parts = line.split("--");
+                if (parts.length == 2) {
+                    int fromNode = Integer.parseInt(parts[0].trim());
+                    int toNode = Integer.parseInt(parts[1].trim());
+
+                    Node from = new Node(fromNode);
+                    Node to = new Node(toNode);
+
+                    if(!g.existsNode(from)){
+                        g.addNode(from);
+                    }
+                    if(!g.existsNode(to)){
+                        g.addNode(to);
+                    }
+                    if(!g.existsEdge(from,to)){
+                        g.addEdge(from,to);
+                    }
+                }
+            }
+            myReader.close();
+            return g;
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
+    // TODO adjacency matrix
+
+
 
   // voir si utile
   public List<Node> getSuccessorsMulti(Node n){

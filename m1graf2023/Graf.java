@@ -1032,10 +1032,6 @@ public class Graf {
         return null;
     }
     /**
-     @TO-DO : faire 3 methodes pour convertir le graph en string compatible avec
-     d'autre format que .gv
-     */
-    /**
      * Get a graph from a file
      * @param filename name of the file
      * @param extension extension of the file
